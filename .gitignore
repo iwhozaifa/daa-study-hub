@@ -1,0 +1,6 @@
+# Original course material (copyright) — never commit
+*.pdf
+
+# Local build artifacts
+.venv/
+site/

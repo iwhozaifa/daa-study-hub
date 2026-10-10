@@ -1,0 +1,184 @@
+# 5 · Loop-analysis rules & space complexity
+
+!!! abstract "In one sentence"
+    To get the running time of iterative code, work **inside-out**: multiply the work inside a loop by
+    how many times the loop runs, **add** consecutive blocks, and take the **bigger branch** of an if/else.
+    Space complexity counts the **extra memory** the algorithm needs as $n$ grows.
+
+## Everyday analogy
+
+**Nested loops = a clock.** The minute hand (inner loop) goes all the way round 60 times for every
+**one** step of the hour hand (outer loop). Total minute-steps in 12 hours = $12 \times 60$. When the inner
+loop's length *depends* on the outer one, you can't multiply; you **add up** the rounds instead (a sum).
+
+**Space = desk space while doing homework.** The textbook is the input (you'd have it anyway). Space
+complexity asks how much **scratch paper** you need, and whether it grows with the size of the problem.
+
+## The four rules
+
+| Rule | Code shape | Time |
+|---|---|---|
+| 1. Loop | `for` $n$ times { body } | $n \times$ (time of body) |
+| 2. Nested loops | analyse **inside-out** | product of the loop sizes (if independent) |
+| 3. Consecutive statements | block A; block B | time(A) + time(B), so the bigger one wins |
+| 4. If/else | `if` test `then` S1 `else` S2 | test + **max**(S1, S2) for the worst case |
+
+## Loop patterns to recognise instantly
+
+| Pattern | Iterations | Growth |
+|---|---|---|
+| `for i ← 1 to n` | $n$ | $\Theta(n)$ |
+| `for i ← 1 to n` / `for j ← 1 to n` | $n^2$ | $\Theta(n^2)$ |
+| `for i ← 1 to n` / `for j ← 1 to i` | $\frac{n(n+1)}{2}$ | $\Theta(n^2)$ |
+| `i ← 1; while i < n: i ← 2i` | $\lceil\log_2 n\rceil$ | $\Theta(\log n)$ |
+| `i ← n; while i > 1: i ← i/2` | $\approx\log_2 n$ | $\Theta(\log n)$ |
+| `for i ← 1 to n` / doubling `j` loop inside | $n\log_2 n$ | $\Theta(n\log n)$ |
+| `i ← n; while i ≥ 1: (do i work); i ← i/2` | $n + \frac n2 + \frac n4 + \dots \approx 2n$ | $\Theta(n)$ |
+| three nested loops $i < j < k$ | $\frac{n(n-1)(n-2)}{6}$ | $\Theta(n^3)$ |
+
+---
+
+=== "Visual"
+
+    **Dependent nested loop as a staircase** (`for i ← 1 to n` / `for j ← 1 to i`), with $n = 5$:
+
+    ```text
+    i=1  ■
+    i=2  ■ ■
+    i=3  ■ ■ ■
+    i=4  ■ ■ ■ ■
+    i=5  ■ ■ ■ ■ ■        15 squares = 5·6/2  → about half of the 5×5 square → Θ(n²)
+    ```
+
+    **Doubling loop** (`i ← 1; while i < n: i ← 2i`), with $n = 100$:
+
+    | iteration | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+    |---|---|---|---|---|---|---|---|
+    | $i$ after | 2 | 4 | 8 | 16 | 32 | 64 | 128 ≥ 100, stop |
+
+    7 iterations, and $\lceil\log_2 100\rceil = 7$ ✓
+
+    **Halving outer loop with inner work $i$** (looks like $n\log n$ but isn't):
+
+    ```text
+    i = n     ■■■■■■■■■■■■■■■■  (16)
+    i = n/2   ■■■■■■■■          (8)
+    i = n/4   ■■■■              (4)
+    i = n/8   ■■                (2)
+    i = 1     ■                 (1)      total 31 = 2n − 1 → Θ(n)
+    ```
+
+=== "Worked example"
+
+    **Find the running time:**
+
+    ```text
+    1  for i ← 1 to n do                 // A: a nested pair
+    2      for j ← 1 to n do
+    3          x ← x + 1
+    4  for k ← 1 to n do                 // B: a single loop
+    5      if A[k] > 0 then
+    6          for m ← 1 to n do x ← x + 1
+    7      else
+    8          y ← y + 1
+    ```
+
+    **Block A (lines 1–3).** Independent nested loops, inside-out: line 3 is $O(1)$, the inner loop is $n \cdot O(1) = O(n)$, the outer is $n \cdot O(n) = \Theta(n^2)$.
+
+    **Block B (lines 4–8).** Rule 4: the branch costs $\max(\Theta(n), \Theta(1)) = \Theta(n)$ in the worst case (all `A[k] > 0`). The loop runs $n$ times, so $\Theta(n^2)$ worst case.
+
+    **Rule 3:** total $= \Theta(n^2) + \Theta(n^2) = \Theta(n^2)$.
+
+    **Space:** only `i, j, k, m, x, y`, a fixed number of variables, so $\Theta(1)$ extra space.
+
+=== "Guided questions"
+
+    **Q1.** `for i ← 1 to n: for j ← 1 to 100: body`. Is that $\Theta(n^2)$?
+
+    ??? tip "Hint"
+        Does the inner loop depend on $n$?
+
+    ??? success "Answer"
+        No: $100n = \Theta(n)$. The inner loop is a constant.
+
+    **Q2.** `for i ← 1 to n: j ← 1; while j < n: j ← 2j`. Time?
+
+    ??? success "Answer"
+        The inner loop is $\Theta(\log n)$ and runs $n$ times, so $\Theta(n\log n)$.
+
+    **Q3.** A recursive function calls itself on $n - 1$ until $n = 0$, using $O(1)$ local variables per call. Extra space?
+
+    ??? tip "Hint"
+        Each pending call keeps a frame on the call stack until it returns.
+
+    ??? success "Answer"
+        $n$ frames are on the stack at the deepest point, so $\Theta(n)$ space even though no array is allocated.
+
+    **Q4.** An algorithm makes a copy `B` of the input array `A[1..n]`. Extra space?
+
+    ??? success "Answer"
+        $\Theta(n)$. Variable-size data counts.
+
+=== "Explanation & drill"
+
+    **Explanation.** Always find the innermost statement and ask **"how many times does it run in total?"** If the loop bounds don't depend on each other, multiply. If they do (`j` up to `i`), write the sum and use [Topic 0](00-math-toolkit.md). Loops that multiply or divide the counter run a **logarithmic** number of times. For space, split memory into a **fixed part** (a few variables, independent of $n$) and a **variable part** (arrays sized by $n$, and the **recursion stack**). An algorithm with $O(1)$ extra space is called **in-place** (e.g. insertion sort).
+
+    **Drill:** give $\Theta(\cdot)$ for the innermost statement count.
+
+    **1.** `for i ← 1 to n: for j ← i to n: body`
+
+    ??? success "Answer"
+        $n + (n-1) + \dots + 1 = \frac{n(n+1)}{2}$, so $\Theta(n^2)$
+
+    **2.** `i ← n; while i > 0: body; i ← ⌊i/3⌋`
+
+    ??? success "Answer"
+        $\Theta(\log_3 n) = \Theta(\log n)$
+
+    **3.** `for i ← 1 to n²: body`
+
+    ??? success "Answer"
+        $\Theta(n^2)$. Read the bound carefully.
+
+    **4.** `for i ← 1 to n: for j ← 1 to i: for k ← 1 to j: body`
+
+    ??? success "Answer"
+        $\sum_i \sum_{j \le i} j \approx \sum_i \frac{i^2}{2} \approx \frac{n^3}{6}$, so $\Theta(n^3)$
+
+    **5.** Space of `Power(x, n)` from [Topic 3](03-correctness.md)? And of `RecPower`?
+
+    ??? success "Answer"
+        Iterative: $\Theta(1)$. Recursive: $\Theta(n)$ stack frames.
+
+---
+
+## Common mistakes
+
+- Multiplying loop sizes when the inner bound depends on the outer variable. Write the sum instead.
+- Seeing two nested loops and automatically saying $n^2$. The halving-outer pattern above is $\Theta(n)$.
+- Forgetting the recursion stack in space analysis.
+- Counting the input array itself as extra space. Space complexity usually means **auxiliary** space; say which one you mean.
+
+## Mastery check
+
+!!! question "Solve without hints, then explain each step"
+    ```text
+    i ← n
+    while i ≥ 1 do
+        for j ← 1 to i do
+            x ← x + 1
+        i ← ⌊i / 2⌋
+    ```
+    (a) How many times does `x ← x + 1` run when $n = 16$? (b) Give $\Theta(\cdot)$ in general. (c) What is the extra space?
+
+??? success "Answers"
+    (a) $16 + 8 + 4 + 2 + 1 = 31$.
+    (b) $n(1 + \frac12 + \frac14 + \dots) < 2n$, so $\Theta(n)$ (a shrinking geometric series).
+    (c) $\Theta(1)$.
+
+## References
+
+- Lecture06 *Algorithm Analysis*: Slides 3–4 (the four rules), 5–9 (loop examples).
+- 04 *Correctness & Space*: Slides 6–9 (space complexity: fixed vs. variable part, arrayMax).
+- 03 *Algorithm Analysis*: Slides 7–8 (a triple-nested brute-force loop).
+- CLRS 4e §2.2 (analysing algorithms), Appendix A (sums used for loops).

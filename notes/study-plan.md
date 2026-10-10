@@ -1,0 +1,98 @@
+# DAA Study Hub: Study Plan
+
+CS332 Design and Analysis of Algorithms · created 2026-10-10
+
+## 1. Goal & constraints
+
+- **Goal:** pass the mid-semester exam (25% of the grade), on **Monday 2 November 2026**.
+- **Expected question types:** proving O/Ω/Θ with constants c and n₀, solving recurrences,
+  loop-invariant and induction proofs, and tracing algorithms by hand.
+- **Time budget:** 5–7 hours per week, so about 2 hours per topic.
+- **Prerequisites to rebuild along the way:** logs and exponents, summations, recursion, proof writing.
+- **Rules:** zero cost. Notes are written in my own words, never copied, and cite "Slide N / CLRS Ch. X".
+  Slides and the book are never committed (see `.gitignore`). For assignments I get guidance only, never full solutions.
+
+## 2. Topic map (approved)
+
+| # | Topic | Slides | CLRS 4e |
+|---|---|---|---|
+| 0 | Math toolkit: logs, exponents, Σ sums | Lecture06 | 3.3, App. A |
+| 1 | What an algorithm is, pseudocode, counting operations | 01-02, 03, 04 | Ch 1, 2.2 |
+| 2 | Proof techniques: direct, contradiction, contraposition, induction | Supplementary notes | App. A |
+| 3 | Correctness: loop invariants, pre/postconditions | 04 | 2.1 |
+| 4 | Insertion sort: trace, invariant, best/worst-case T(n) | 05-06 | 2.1–2.2 |
+| 5 | Loop-analysis rules + space complexity | Lecture06, 04 | 2.2 |
+| 6 | Asymptotic notation O / Ω / Θ, c & n₀ proofs, growth ordering | Lecture07 | Ch 3 |
+| 7 | Divide & conquer + merge sort | 08 | 2.3, App. B.5 |
+| 8 | Recurrences: recursion tree, guess-and-verify by induction | 08 | 4.3–4.4 |
+| later | Brute force · Greedy · Dynamic programming · Graphs (when slides arrive) | — | — |
+
+## 3. Schedule (midterm: 2 Nov 2026)
+
+| Dates | Topics |
+|---|---|
+| Oct 12–17 | 0, 1, 2, 3 |
+| Oct 18–24 | 4, 5, 6 |
+| Oct 25–29 | 7, 8 |
+| Oct 30–Nov 1 | [Mock midterm](practice/mock-midterm.md) (timed) + review of [my mistakes](mistakes.md) |
+| **Nov 2** | **Midterm** |
+
+The website was built early (10 Oct) so every topic already has a draft note. A topic only counts as
+*done* after a live session and a passed mastery check (see [Progress](progress.md)).
+
+## 4. How each session works: I pick the mode
+
+At the start of every topic, and again whenever something isn't clicking, I'm asked which mode I want:
+
+| Mode | What it looks like |
+|---|---|
+| **Visual** | Diagrams, tables and step-by-step traces first, then the formula |
+| **Examples first** | Work one concrete example, then generalise to the rule |
+| **Socratic** | I'm asked guiding questions with hints and work it out myself |
+| **Explain → drill** | A clear explanation, then a set of practice problems |
+
+- I can switch modes at any point ("switch to visual").
+- If a mode isn't working, the next step is a *different* mode, not the same explanation again.
+- Every mode ends the same way: **I explain it back**, then a **mastery check**.
+
+**Definition of done (per topic):** I solve a fresh problem with no hints and explain it in my own words.
+
+### What every `notes/<topic>.md` contains
+
+1. Everyday analogy
+2. Key formula / rule
+3. `## Visual`: trace table or diagram
+4. `## Worked example`
+5. `## Guided questions` (answers hidden, which become collapsible on the website)
+6. `## Explanation & drill`
+7. Common mistakes
+8. References (Slide N / CLRS section)
+
+## 5. Weak-spot coverage
+
+| Weak spot | Topics that train it |
+|---|---|
+| Recurrences / Big-O | 0, 5, 6, 8 |
+| How algorithms actually run | 1, 4, 7 |
+| Choosing a technique | 1, 7 + `notes/which-technique.md` |
+| Proofs | 2, 3, 4, 6, 8 |
+
+## 6. Files updated after each topic
+
+- `notes/topics/<topic>.md`: the topic note (all four modes)
+- `notes/progress.md`: status, mastery-check result, **which mode(s) worked**
+- `notes/mistakes.md`: every mistake I made and the fix
+- `notes/cheatsheet.md`: one-line formulas and rules
+- `notes/which-technique.md`: "if the problem looks like X, try Y"
+
+## 7. Later phases
+
+- **Phase 2:** MkDocs Material site over `notes/`, deployed free with GitHub Pages + GitHub Actions. ✅ built 10 Oct, see [How this site works](how-this-site-works.md).
+- **Phase 3:** Anki-importable flashcard CSV, links to VisuAlgo visualisers, timed "exam mode" from notes + mistakes.
+- **Phase 4 (optional):** `CONTRIBUTING.md` for classmates, plus a check that no copyrighted material is in the repo.
+
+## 8. Open items
+
+- [x] Midterm date: 2 Nov 2026
+- [ ] Midterm format / allowed materials (fill in when announced)
+- [ ] Add new slide decks to the topic map as the course continues

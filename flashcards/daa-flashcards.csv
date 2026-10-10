@@ -1,0 +1,74 @@
+#separator:comma
+#html:false
+#columns:Front,Back,Tags
+#tags column:3
+log_b(x) = y means…,"b^y = x (""what power of b gives x?"")",t0 logs
+log(xy) = ?,log x + log y,t0 logs
+log(x/y) = ?,log x − log y,t0 logs
+log(x^a) = ?,a · log x,t0 logs
+b^(log_b x) = ?,x,t0 logs
+Change of base: log_c x = ?,"log_b x / log_b c, so all log bases differ by a constant",t0 logs
+Is log(a+b) = log a + log b?,No. Only products split: log(ab) = log a + log b,t0 logs trap
+log2(1024) = ?,10,t0 logs
+Intuition for log2 n,Number of times you can halve n before reaching 1,t0 logs
+1 + 2 + … + n = ?,"n(n+1)/2, which is Θ(n²)",t0 sums
+1² + 2² + … + n² = ?,"n(n+1)(2n+1)/6, which is Θ(n³)",t0 sums
+2^0 + 2^1 + … + 2^k = ?,2^(k+1) − 1,t0 sums
+Geometric sum r^0 + … + r^k (r≠1) = ?,(r^(k+1) − 1)/(r − 1),t0 sums
+"Infinite geometric sum, 0<r<1","1/(1 − r), a constant",t0 sums
+n + n/2 + n/4 + … + 1 = ?,"2n − 1, which is Θ(n)",t0 sums
+Harmonic sum 1 + 1/2 + … + 1/n ≈ ?,"ln n, which is Θ(log n)",t0 sums
+The 5 properties of an algorithm,"Input, output, definiteness, finiteness, effectiveness",t1 basics
+Why count steps instead of timing with a stopwatch?,"Timings depend on machine, language and test inputs; step counts as a function of n don't",t1 basics
+How many times does the header 'for i ← 1 to n' run?,n + 1 (the last check fails and exits),t1 counting
+Running time model,T(n) = Σ (cost of line × times it runs),t1 counting
+Best/worst case refer to…,the fewest/most steps over inputs of the SAME size n,t1 basics
+Doubling test: time ×4 when n doubles suggests…,Θ(n²),t1 counting
+Induction: the 3 parts,Base case; inductive hypothesis S(k); prove S(k+1) using it,t2 proofs
+Strong induction step,"Assume S(n0..k) ALL hold, prove S(k+1)",t2 proofs
+Proof by contradiction,"Assume the claim is false, derive something impossible, so the claim is true",t2 proofs
+Contrapositive of P ⇒ Q,¬Q ⇒ ¬P (logically equivalent),t2 proofs
+Converse of P ⇒ Q (is it equivalent?),"Q ⇒ P, which is NOT equivalent",t2 proofs trap
+How to disprove a 'for all' claim,Give one counterexample,t2 proofs
+Correctness = ?,Partial correctness + termination,t3 correctness
+Loop invariant: 3 steps,"Initialization, Maintenance, Termination",t3 correctness
+What makes an invariant useful?,At termination it (plus the exit condition) gives the desired output,t3 correctness
+Value of i when 'for i ← 1 to n' exits,n + 1,t3 correctness
+How to prove a recursive algorithm correct,Induction on input size (base case + trust the recursive call),t3 correctness
+Sorting postcondition has 2 parts,Output is in non-decreasing order AND is a permutation of the input,t3 correctness
+Insertion sort invariant,"At the start of each outer iteration, A[1..j−1] holds its original elements in sorted order",t4 insertion
+Insertion sort best case (input + time),Already sorted; Θ(n),t4 insertion
+Insertion sort worst case (input + time),Reverse sorted; Θ(n²),t4 insertion
+Shifts in insertion sort on reverse-sorted size n,n(n−1)/2,t4 insertion
+Number of shifts insertion sort makes equals…,the number of inversions in the input,t4 insertion
+Insertion sort extra space / stable?,Θ(1) in place; stable,t4 insertion
+Nested loops with independent bounds,Multiply the sizes (analyse inside-out),t5 loops
+Consecutive blocks,"Add, so the bigger block dominates",t5 loops
+If/else in the worst case,Test + max(branch costs),t5 loops
+Loop where the counter doubles until n,Θ(log n) iterations,t5 loops
+"for i←1..n, for j←1..i","n(n+1)/2, which is Θ(n²)",t5 loops
+Halving outer loop with inner work i,"n + n/2 + … ≈ 2n, which is Θ(n)",t5 loops trap
+Space of a recursion n levels deep,Θ(n) stack frames,t5 space
+f = O(g) definition,"∃ c, n0 > 0: f(n) ≤ c·g(n) for all n ≥ n0",t6 asymptotic
+f = Ω(g) definition,"∃ c, n0 > 0: f(n) ≥ c·g(n) for all n ≥ n0",t6 asymptotic
+f = Θ(g) definition,"∃ c1, c2, n0: c1·g(n) ≤ f(n) ≤ c2·g(n) for all n ≥ n0",t6 asymptotic
+f = Θ(g) iff…,f = O(g) and f = Ω(g),t6 asymptotic
+Growth ladder,1 < log n < √n < n < n log n < n² < n³ < 2ⁿ < n! < nⁿ,t6 asymptotic
+How to disprove f = O(g),"Assume c, n0 exist; derive n ≤ constant for all large n, a contradiction",t6 asymptotic
+Is 2^(n+1) = O(2^n)? Is 2^(2n) = O(2^n)?,Yes (c=2). No (ratio 2^n is unbounded),t6 asymptotic
+Little-o meaning (CLRS),"Strict upper bound, NOT tight: 2n = o(n²) but 2n² ≠ o(n²)",t6 asymptotic
+Divide & conquer: 3 steps,"Divide, Conquer (recurse), Combine",t7 dc
+Merge sort recurrence,T(n) = 2T(n/2) + Θ(n),t7 dc
+Merge sort time (all cases) and extra space,Θ(n log n); Θ(n),t7 dc
+Max comparisons merging lists of sizes p and q,p + q − 1,t7 dc
+Binary search recurrence and time,"T(n) = T(n/2) + Θ(1), which is Θ(log n)",t7 dc
+Complete k-ary tree: nodes at depth d; height with n leaves,k^d; log_k n,t7 dc
+Recursion tree for aT(n/b)+f(n): level i,"a^i nodes, each of size n/b^i, level total a^i·f(n/b^i)",t8 recurrences
+Number of leaves in the tree of aT(n/b)+f(n),a^(log_b n) = n^(log_b a),t8 recurrences
+Level totals equal / shrinking / growing means…,× number of levels / root dominates / leaves dominate,t8 recurrences
+T(n) = 2T(n/2) + n,Θ(n log n),t8 recurrences
+T(n) = 2T(n/2) + n²,Θ(n²) (root dominates),t8 recurrences
+T(n) = 4T(n/2) + n,Θ(n²) (leaves dominate),t8 recurrences
+T(n) = T(n/2) + n,Θ(n),t8 recurrences
+T(n) = T(n−1) + n,"Θ(n²), by expansion to 1+2+…+n",t8 recurrences
+Substitution method,"Guess the answer (e.g. from a tree), then prove it by induction with the same constant c",t8 recurrences
