@@ -28,7 +28,7 @@ Each topic page in `content/docs/topics/` has, in this order (the tests check it
 5. four tabs: `<Tabs groupId="study-mode" persist items={[...]}>` with `<Tab value="Visual">`, `"Worked example"`,
    `"Guided questions"` and `"Explanation & drill"`
 6. **Common mistakes**
-7. **Mastery check**
+7. **Mastery check**, ending with `<MasteryTracker topic="NN-slug" />` (the slug is the file name)
 8. **See it move** (optional)
 9. **References**
 

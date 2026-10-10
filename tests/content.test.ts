@@ -55,6 +55,15 @@ describe('topic page template', () => {
     expect(mastery).toMatch(/<Accordion title="✅ Answers?">/);
   });
 
+  it.each(topics)('%s ends its mastery check with a tracker card for itself', (f) => {
+    const slug = f.replace(/^topics\/|\.mdx$/g, '');
+    const s = read(f);
+    const at = s.indexOf(`<MasteryTracker topic="${slug}" />`);
+    expect(at).toBeGreaterThan(s.indexOf('## Mastery check'));
+    expect(at).toBeLessThan(s.indexOf('## References'));
+    expect(s.match(/<MasteryTracker /g)).toHaveLength(1);
+  });
+
   it.each(topics)('%s cites the slides and CLRS', (f) => {
     const refs = read(f).slice(read(f).indexOf('## References'));
     expect(refs).toMatch(/Slides?|pp?\. ?\d/);
@@ -111,6 +120,17 @@ describe('mock midterms', () => {
     const marks = [...read(f).matchAll(/^### Q\d+\..*\((\d+) marks\)/gm)].map((m) => Number(m[1]));
     expect(marks.length).toBe(7);
     expect(marks.reduce((a, b) => a + b, 0)).toBe(50);
+  });
+
+  it.each([
+    ['practice/mock-midterm.mdx', 'A'],
+    ['practice/mock-midterm-b.mdx', 'B'],
+  ])('%s has a score form for paper %s', (f, paper) => {
+    expect(read(f)).toContain(`<MockScoreForm paper="${paper}" />`);
+  });
+
+  it('the progress page holds the personal dashboard', () => {
+    expect(read('progress.mdx')).toContain('<MyProgress />');
   });
 
   it.each(['practice/mock-midterm.mdx', 'practice/mock-midterm-b.mdx'])('%s hides every answer', (f) => {

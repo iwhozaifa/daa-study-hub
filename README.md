@@ -8,6 +8,8 @@ loop invariants, insertion sort, Big-O/Ω/Θ, merge sort and recurrences.
 Each topic page offers four study modes as tabs (Visual · Worked example · Guided questions ·
 Explanation & drill), hidden answers, a mastery check and references to the lecture slides and CLRS 4th ed.
 There are also two timed mock midterms, a cheatsheet and 70 Anki flashcards.
+Each visitor gets a **private progress tracker** (mastery checklist, mock scores, mistakes log) saved in their own
+browser, with no login or account, plus export/import to move between devices.
 
 Built with [Fumadocs](https://fumadocs.dev) (Next.js + React), [shadcn/ui](https://ui.shadcn.com), Tailwind CSS,
 KaTeX and Mermaid. Notes are MDX files in [`content/docs/`](content/docs).

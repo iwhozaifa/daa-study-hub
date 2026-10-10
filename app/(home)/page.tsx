@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { DaysLeft } from '@/components/days-left';
+import { TopicStatusBadge } from '@/components/progress/status-badge';
 import { source } from '@/lib/source';
 
 const modes = [
@@ -106,6 +107,9 @@ export default function HomePage() {
                     </div>
                     <CardTitle className="mt-3 text-lg group-hover:text-hazard">{rest.join(' · ')}</CardTitle>
                     <CardDescription>{page.data.description}</CardDescription>
+                    <div className="mt-2 min-h-5">
+                      <TopicStatusBadge slug={page.slugs[1]} />
+                    </div>
                   </CardHeader>
                 </Card>
               </Link>

@@ -26,6 +26,15 @@ flowchart LR
 
 If any test fails, the site is **not** updated, so a broken page never goes live.
 
+## Your progress lives in your browser
+
+There are no accounts and no server. Each visitor's ticks, mock scores and mistakes are saved in **their own browser**
+(`localStorage`), so everyone gets a private tracker for free and nobody else can see it. The trade-offs:
+
+- It's **per device and per browser**. Use **Export / Import** on [My progress](progress.mdx) to move or back it up.
+- Clearing browsing data erases it, so export now and then.
+- It's honour-based: "Mastered" only unlocks after ticking *solved with no hints* plus the five explain-back steps.
+
 ## Tools (one sentence each, and why each beats building it yourself)
 
 | Tool | What it does | Why not build it yourself |
@@ -58,10 +67,12 @@ If any test fails, the site is **not** updated, so a broken page never goes live
 | `components/mdx.tsx` | Which components MDX pages can use (`Tabs`, `Accordion`, `Callout`, `Mermaid`). |
 | `components/mermaid.tsx` | The Mermaid recipe from the Fumadocs docs, coloured to match. |
 | `components/days-left.tsx` | The midterm countdown on the home page. |
+| `lib/progress.ts` | The tracker's rules (e.g. "Mastered needs all six ticks") and the checks run on imported files. No React, so it's easy to test. |
+| `components/progress/` | The tracker UI: the card on each topic page, the My progress dashboard, the score form and the home-page badges. |
 | `lib/source.ts` | Tells Fumadocs where the notes are and turns on maths + Mermaid. |
 | `lib/shared.ts`, `lib/layout.shared.tsx` | Site name, GitHub link and top navigation. |
 | `next.config.mjs` | Static export to `out/` and the `/daa-study-hub` URL prefix. |
-| `tests/` | `content.test.ts`, `facts.test.ts` (Vitest) and `e2e/site.spec.ts` (Playwright). |
+| `tests/` | `content.test.ts`, `facts.test.ts`, `progress.test.ts` (Vitest) and `e2e/site.spec.ts`, `e2e/progress.spec.ts` (Playwright). |
 | `.github/workflows/deploy.yml` | Test → build → publish. It also refuses to continue if a PDF or slide file is tracked. |
 | `flashcards/daa-flashcards.csv` | Anki flashcards. |
 | `package.json` / `package-lock.json` | The exact versions of every tool, so your laptop and GitHub build the same thing. |
