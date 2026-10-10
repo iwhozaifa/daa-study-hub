@@ -1,0 +1,216 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'fumadocs-ui/css/shadcn.css';
+@import 'fumadocs-ui/css/preset.css';
+@import 'katex/dist/katex.min.css';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Palette: "hazard orange" — inspired by the colour mood of the anime Chainsaw Man
+ * (engine orange, blood red, ring gold on warm ink). Colours only; no characters or logos.
+ * Fumadocs reads the shadcn variables below through fumadocs-ui/css/shadcn.css.
+ */
+:root {
+  /* light = aged manga paper */
+  --background: #f3ecdd;
+  --foreground: #1a1514;
+  --card: #faf5ea;
+  --card-foreground: #1a1514;
+  --popover: #faf5ea;
+  --popover-foreground: #1a1514;
+  --primary: #a5330a;
+  --primary-foreground: #fff8ee;
+  --secondary: #e8dfcc;
+  --secondary-foreground: #1a1514;
+  --muted: #e8dfcc;
+  --muted-foreground: #5c4f45;
+  --accent: #ebd9c4;
+  --accent-foreground: #8a2c08;
+  --destructive: #a10f1a;
+  --border: #d8c9b0;
+  --input: #d8c9b0;
+  --ring: #a5330a;
+  --radius: 0.5rem;
+  --sidebar: #ede4d2;
+  --sidebar-foreground: #1a1514;
+  --sidebar-primary: #a5330a;
+  --sidebar-primary-foreground: #fff8ee;
+  --sidebar-accent: #e4d3bb;
+  --sidebar-accent-foreground: #8a2c08;
+  --sidebar-border: #d8c9b0;
+  --sidebar-ring: #a5330a;
+
+  --hazard: #a5330a;
+  --blood: #a10f1a;
+  --gold: #7a560f;
+  --halftone: rgb(165 51 10 / 0.07);
+}
+
+.dark {
+  /* dark = warm ink */
+  --background: #141110;
+  --foreground: #ede6d6;
+  --card: #1e1918;
+  --card-foreground: #ede6d6;
+  --popover: #1e1918;
+  --popover-foreground: #ede6d6;
+  --primary: #ff5a1f;
+  --primary-foreground: #141110;
+  --secondary: #2a2220;
+  --secondary-foreground: #ede6d6;
+  --muted: #241d1b;
+  --muted-foreground: #b5a99a;
+  --accent: #2e211c;
+  --accent-foreground: #ff8a5c;
+  --destructive: #ff4d5a;
+  --border: #3a2a24;
+  --input: #3a2a24;
+  --ring: #ff5a1f;
+  --sidebar: #110e0d;
+  --sidebar-foreground: #ede6d6;
+  --sidebar-primary: #ff5a1f;
+  --sidebar-primary-foreground: #141110;
+  --sidebar-accent: #2a1d18;
+  --sidebar-accent-foreground: #ff8a5c;
+  --sidebar-border: #2a201c;
+  --sidebar-ring: #ff5a1f;
+
+  --hazard: #ff5a1f;
+  --blood: #ff4d5a;
+  --gold: #e8b23a;
+  --halftone: rgb(255 90 31 / 0.06);
+}
+
+/* shadcn/ui tokens for the landing-page components */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-hazard: var(--hazard);
+  --color-blood: var(--blood);
+  --color-gold: var(--gold);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-mono-jb);
+  --font-display: var(--font-bebas);
+}
+
+/* callout colours in the same palette (overrides Fumadocs' defaults) */
+:root,
+.dark {
+  --color-fd-info: var(--hazard);
+  --color-fd-idea: var(--gold);
+  --color-fd-warning: #d9701a;
+  --color-fd-error: var(--blood);
+  --color-fd-success: #6f9a3d;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+html > body[data-scroll-locked] {
+  margin-right: 0px !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
+/* faint halftone dots, like a printed manga page */
+body {
+  background-color: var(--background);
+  background-image: radial-gradient(var(--halftone) 1px, transparent 1.2px);
+  background-size: 14px 14px;
+}
+
+/* bold display headings */
+#nd-page h1,
+.prose h2 {
+  font-family: var(--font-bebas), var(--font-inter), sans-serif;
+  letter-spacing: 0.02em;
+  font-weight: 400;
+}
+#nd-page h1 {
+  font-size: 2.6rem;
+  line-height: 1.05;
+}
+.prose h2 {
+  font-size: 1.9rem;
+  border-bottom: 2px solid var(--hazard);
+  padding-bottom: 0.15em;
+  width: fit-content;
+}
+
+::selection {
+  background: var(--hazard);
+  color: var(--background);
+}
+
+/* wide maths scrolls inside its box instead of the whole page */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+
+/* ---------- landing page ---------- */
+.hero-slash {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 0 55%, var(--hazard) 55% 63%, var(--blood) 63% 66%, transparent 66%);
+  opacity: 0.18;
+}
+.saw-edge {
+  /* sawtooth strip along the bottom of the hero */
+  height: 14px;
+  background: var(--hazard);
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 22px 100%;
+}
+.stamp {
+  transform: rotate(-3deg);
+  border: 2px solid currentColor;
+  border-radius: 0.25rem;
+  padding: 0.35rem 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.topic-num {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--hazard);
+}
+.group:hover .topic-num {
+  color: var(--hazard);
+}
+.lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.lift:hover {
+  transform: translateY(-4px);
+  border-color: var(--hazard);
+  box-shadow: 0 10px 30px -12px var(--hazard);
+}
+@media (prefers-reduced-motion: reduce) {
+  .lift,
+  .lift:hover {
+    transition: none;
+    transform: none;
+  }
+}

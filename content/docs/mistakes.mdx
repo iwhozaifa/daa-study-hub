@@ -1,0 +1,22 @@
+---
+title: "My mistakes"
+description: "My error log, so I never repeat a mistake."
+---
+
+Every mistake I make in a session or practice paper goes here, with the fix. Before the midterm, I reread
+this page and redo every row.
+
+| Date | Topic | What I did wrong | Why it's wrong | The fix / rule to remember |
+|---|---|---|---|---|
+| — | — | *(empty: filled in during live sessions)* | | |
+
+## Classic beginner traps (watch for these)
+
+These are *common* errors, not mine yet. If I make one, I copy it into the table above.
+
+- Writing $\log(a+b) = \log a + \log b$. **Wrong:** the product rule is $\log(ab) = \log a + \log b$.
+- Counting a `for i = 1 to n` loop header as $n$ checks. It runs $n+1$ times (the last check fails).
+- Choosing $n_0$ before $c$ in a Big-O proof and then contradicting myself. Pick $c$, then the $n_0$ that makes it work.
+- In induction, *assuming* the statement for $n$ and calling that the proof. You assume $n-1$ (or $k$) and **prove** $n$ (or $k+1$).
+- Loop invariant that is true but useless at termination. It must say something that gives the answer when the loop stops.
+- Recursion tree: forgetting the leaf level or getting the number of levels wrong. For halving, it's $\log_2 n + 1$ levels.

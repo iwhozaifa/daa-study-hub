@@ -1,0 +1,20 @@
+{
+  "title": "DAA Study Hub",
+  "pages": [
+    "index",
+    "---Plan---",
+    "study-plan",
+    "progress",
+    "---Topics---",
+    "...topics",
+    "---Toolbox---",
+    "cheatsheet",
+    "which-technique",
+    "mistakes",
+    "---Practice---",
+    "...practice",
+    "---About---",
+    "how-this-site-works",
+    "contributing"
+  ]
+}

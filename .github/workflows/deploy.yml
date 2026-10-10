@@ -1,9 +1,11 @@
-# Rebuilds the website and publishes it to GitHub Pages every time main changes.
-name: Deploy site
+# Tests the site, builds it and publishes it to GitHub Pages every time main changes.
+# If any test fails, nothing is published.
+name: Test and deploy site
 
 on:
   push:
     branches: [main]
+  pull_request:             # classmates' suggestions get tested too (but not published)
   workflow_dispatch:        # lets you re-run it by hand from the Actions tab
 
 permissions:
@@ -12,31 +14,44 @@ permissions:
   id-token: write           # proves to Pages that this run is really from this repo
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
+  test-and-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7                 # 1. get the repo files
-      - uses: actions/setup-python@v7             # 2. install Python
+      - uses: actions/checkout@v7                     # 1. get the repo files
+      - run: "! git ls-files | grep -iE '\\.(pdf|pptx?|epub)$'"   # 2. fail if slides/book were committed by mistake
+      - uses: actions/setup-node@v7                   # 3. install Node.js (with a download cache)
         with:
-          python-version: "3.12"
-      - run: "! git ls-files | grep -iE '\\.(pdf|pptx?|epub)$'"  # 3. fail if slides/book were committed by mistake
-      - run: pip install -r requirements.txt      # 4. install MkDocs Material
-      - run: mkdocs build --strict                # 5. markdown -> HTML in site/ (fail on broken links)
+          node-version: 24
+          cache: npm
+      - run: npm ci                                   # 4. install the exact versions from package-lock.json
+      - run: npm run types:check                      # 5. TypeScript check
+      - run: npm test                                 # 6. content + facts tests (Vitest)
+      - run: npm run build                            # 7. MDX -> static HTML in out/
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e:prepare && npx playwright test   # 8. click through the built site in a real browser
+      - uses: actions/upload-artifact@v7              # keep the browser-test report if something failed
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report
       - uses: actions/configure-pages@v6
-      - uses: actions/upload-pages-artifact@v5    # 6. hand site/ to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+      - uses: actions/upload-pages-artifact@v5        # 9. hand out/ to GitHub Pages
+        if: github.ref == 'refs/heads/main'
         with:
-          path: site
+          path: out
 
   deploy:
-    needs: build
+    if: github.ref == 'refs/heads/main'
+    needs: test-and-build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v5             # 7. put it live
+        uses: actions/deploy-pages@v5                 # 10. put it live

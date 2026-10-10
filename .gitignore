@@ -1,6 +1,23 @@
 # Original course material (copyright) — never commit
 *.pdf
 
-# Local build artifacts
-.venv/
-site/
+# Old local copy of the study plan (the real one is content/docs/study-plan.mdx)
+STUDY_PLAN.md
+
+# Dependencies and build output
+node_modules/
+.source/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Test output
+test-results/
+playwright-report/
+.e2e/
+coverage/
+
+# Misc
+.DS_Store
+.env*.local

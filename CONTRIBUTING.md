@@ -19,32 +19,39 @@ Guided hints, analogies and **new** practice problems are welcome. Full solution
 
 ## 3. Match the page template
 
-Each topic page in `notes/topics/` has, in this order:
+Each topic page in `content/docs/topics/` has, in this order (the tests check it):
 
-1. an `!!! abstract "In one sentence"` box
-2. **Everyday analogy**
-3. **Key rules**
-4. four tabs: `=== "Visual"`, `=== "Worked example"`, `=== "Guided questions"` and `=== "Explanation & drill"`
-5. **Common mistakes**
-6. **Mastery check**
-7. **See it move**
-8. **References**
+1. frontmatter with `title` and a one-line `description`
+2. a `<Callout type="info" title="In one sentence">` box
+3. **Everyday analogy**
+4. **Key rules**
+5. four tabs: `<Tabs groupId="study-mode" persist items={[...]}>` with `<Tab value="Visual">`, `"Worked example"`,
+   `"Guided questions"` and `"Explanation & drill"`
+6. **Common mistakes**
+7. **Mastery check**
+8. **See it move** (optional)
+9. **References**
 
-Answers go in `??? success "Answer"` blocks and hints in `??? tip "Hint"` blocks, so they stay hidden until clicked.
-Check every number in a worked example (by hand or with a calculator) before you submit.
+Answers go inside `<Accordions><Accordion title="✅ Answer">…</Accordion></Accordions>` and hints inside
+`<Accordion title="💡 Hint">`, so they stay hidden until clicked. Leave a blank line inside each component around your text.
+In ordinary text write `\{`, `\}` and `&lt;` (inside `$maths$` and code you can type them normally).
+
+If you add a worked example with numbers (a trace, a count, a c/n₀ proof), add a check for it in
+`tests/facts.test.ts` so a wrong number can never reach the site.
 
 ## How to submit a change
 
 ```bash
 git clone https://github.com/iwhozaifa/daa-study-hub && cd daa-study-hub
-uv venv .venv && uv pip install --python .venv/bin/python -r requirements.txt
+npm install
 git switch -c fix-topic-6-typo
-# edit files in notes/
-.venv/bin/mkdocs serve            # preview at http://127.0.0.1:8000
-.venv/bin/mkdocs build --strict   # must finish with no warnings
+# edit files in content/docs/
+npm run dev          # preview at http://localhost:3000/daa-study-hub
+npm run check        # types + tests + browser tests must all pass
 git commit -am "Topic 6: fix typo in Example 2"
 git push -u origin fix-topic-6-typo
-gh pr create                      # or open a pull request on GitHub
+gh pr create         # or open a pull request on GitHub
 ```
 
-New page? Add it to `nav:` in `mkdocs.yml`. The site redeploys automatically when a pull request is merged into `main`.
+New page? Add its file name to the `meta.json` in the same folder. The pull request is tested automatically,
+and the site redeploys when it is merged into `main`.
