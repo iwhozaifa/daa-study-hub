@@ -1,7 +1,11 @@
 # How this site works
 
 This page explains every tool and file behind the site, so you understand it instead of treating it as
-magic. Nothing here needed custom code beyond configuration.
+magic.
+
+!!! note "Principle: off-the-shelf, no custom code"
+    Everything is a ready-made tool plus configuration. The only `.js` file is `mathjax.js`, copied from the theme's
+    official documentation. Exam mode uses the theme's built-in hidden answers and your phone's timer, not a home-made widget.
 
 ## The big picture
 
@@ -39,11 +43,13 @@ flowchart LR
 | `notes/topics/NN-*.md` | One page per topic, each with the 4 study-mode tabs. |
 | `notes/study-plan.md`, `notes/progress.md` | The plan and your tracker. |
 | `notes/mistakes.md`, `cheatsheet.md`, `which-technique.md` | The toolbox pages, updated after each session. |
-| `notes/practice/mock-midterm.md` | Exam mode. |
+| `notes/practice/mock-midterm.md`, `mock-midterm-b.md` | Exam mode: two timed 50-mark papers with hidden answers. |
+| `notes/practice/self-study-session.md` | How to run the learning loop on your own (pick mode → explain back → mastery check). |
+| `notes/contributing.md`, `CONTRIBUTING.md` | Rules and commands for classmates who want to suggest changes. |
 | `notes/javascripts/mathjax.js` | ~10 lines telling MathJax where to find formulas (copied from Material's docs). |
 | `mkdocs.yml` | **The site's settings:** name, theme, colours, which extensions are on, and the left-hand navigation (`nav:`). Add a new page? Add it to `nav:` here. |
 | `requirements.txt` | Exact versions of MkDocs and friends, so your laptop and GitHub build the same thing. |
-| `.github/workflows/deploy.yml` | The GitHub Actions recipe: get the files, install Python, `pip install`, `mkdocs build --strict`, publish. Comments in the file explain each step. |
+| `.github/workflows/deploy.yml` | The GitHub Actions recipe: get the files, install Python, **refuse to continue if a PDF or slide file is tracked** (one `git ls-files \| grep` line), `pip install`, `mkdocs build --strict`, publish. Comments in the file explain each step. |
 | `.gitignore` | Files Git must never upload: **all PDFs** (copyrighted slides and book), `.venv/` and `site/` (the build output). |
 | `flashcards/daa-flashcards.csv` | Anki flashcards (see below). |
 | `README.md` | The front page of the GitHub repository. |

@@ -42,4 +42,5 @@ done only when you can solve it **and** explain it in your own words.
 - [Cheatsheet](cheatsheet.md): every formula on one page
 - [Which technique?](which-technique.md): how to recognise which approach a question wants
 - [My mistakes](mistakes.md): a log of errors so I don't repeat them
-- [Mock midterm](practice/mock-midterm.md): a timed exam mode
+- [Self-study session](practice/self-study-session.md): how to learn a topic on your own, with the explain-back checklist
+- [Mock midterm A](practice/mock-midterm.md) and [B](practice/mock-midterm-b.md): timed exam mode

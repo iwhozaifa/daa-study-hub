@@ -17,9 +17,10 @@ uv pip install --python .venv/bin/python -r requirements.txt
 ```
 
 How everything fits together: [`notes/how-this-site-works.md`](notes/how-this-site-works.md).
+Want to help? Read [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Copyright
 
 All notes are written in our own words, with original examples. They cite *"Slide N, <deck>"* and
 *"CLRS 4e §X"* rather than copying them. The original slides and textbook are **not** in this repository
-(see `.gitignore`).
+(see `.gitignore`), and the deploy workflow fails if a PDF or slide file is ever committed.

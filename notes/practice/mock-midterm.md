@@ -1,13 +1,14 @@
-# Mock midterm (exam mode)
+# Mock midterm A (exam mode)
 
 !!! info "How to use exam mode"
-    1. Set a **75-minute timer** on your phone. Closed book: no notes, no cheatsheet.
-    2. Write your answers on paper. Do **not** open any answer until the timer ends.
-    3. Mark yourself with the hidden answers. Copy every mistake into [My mistakes](../mistakes.md).
-    4. Record your score in [Progress](../progress.md). Redo the paper 2 days later on the questions you missed.
+    1. Get paper and a pen, then set a **75-minute timer on your phone**. Closed book: no notes, no cheatsheet, no other tabs.
+    2. Every answer below is folded shut. **Don't open any** until the timer rings.
+    3. Mark yourself with the answers. Copy every mistake into [My mistakes](../mistakes.md) and write the
+       score in the *Mock exams* table on [Progress](../progress.md).
+    4. Two days later, redo only the questions you missed. Then try [Paper B](mock-midterm-b.md).
 
-    The questions mix all topics in the order an exam might, and are new problems written for practice.
-    They are not copies of slide or book exercises.
+    The questions mix all topics, the way an exam might. They are new problems written for practice,
+    not copies of slide or book exercises.
 
 **Total: 50 marks**
 

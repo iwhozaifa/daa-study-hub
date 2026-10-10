@@ -27,8 +27,8 @@ InsertionSort(A, n)
 
 (The slides call the outer variable `j`; CLRS 4e renames it `i`. The algorithm is the same.)
 
-**Loop invariant:** at the start of each iteration of the `for` loop, `A[1..j-1]` holds the elements
-that were originally in `A[1..j-1]`, but in sorted order.
+**Loop invariant:** whenever the outer loop is about to begin a pass with index `j`, the left part `A[1..j-1]`
+contains exactly the items that started there, now in sorted order.
 
 ---
 

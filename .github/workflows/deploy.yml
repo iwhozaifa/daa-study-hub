@@ -19,14 +19,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4                 # 1. get the repo files
-      - uses: actions/setup-python@v5             # 2. install Python
+      - uses: actions/checkout@v7                 # 1. get the repo files
+      - uses: actions/setup-python@v7             # 2. install Python
         with:
           python-version: "3.12"
-      - run: pip install -r requirements.txt      # 3. install MkDocs Material
-      - run: mkdocs build --strict                # 4. markdown -> HTML in site/ (fail on broken links)
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3    # 5. hand site/ to GitHub Pages
+      - run: "! git ls-files | grep -iE '\\.(pdf|pptx?|epub)$'"  # 3. fail if slides/book were committed by mistake
+      - run: pip install -r requirements.txt      # 4. install MkDocs Material
+      - run: mkdocs build --strict                # 5. markdown -> HTML in site/ (fail on broken links)
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5    # 6. hand site/ to GitHub Pages
         with:
           path: site
 
@@ -38,4 +39,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4             # 6. put it live
+        uses: actions/deploy-pages@v5             # 7. put it live

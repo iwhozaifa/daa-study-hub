@@ -81,6 +81,9 @@ nav:
       - Which technique?: which-technique.md
       - My mistakes: mistakes.md
   - Practice:
-      - Mock midterm: practice/mock-midterm.md
+      - Self-study session: practice/self-study-session.md
+      - Mock midterm A: practice/mock-midterm.md
+      - Mock midterm B: practice/mock-midterm-b.md
   - About:
       - How this site works: how-this-site-works.md
+      - Contributing: contributing.md

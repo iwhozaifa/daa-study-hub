@@ -34,7 +34,7 @@ CS332 Design and Analysis of Algorithms · created 2026-10-10
 | Oct 12–17 | 0, 1, 2, 3 |
 | Oct 18–24 | 4, 5, 6 |
 | Oct 25–29 | 7, 8 |
-| Oct 30–Nov 1 | [Mock midterm](practice/mock-midterm.md) (timed) + review of [my mistakes](mistakes.md) |
+| Oct 30–Nov 1 | Oct 30: [Mock midterm A](practice/mock-midterm.md) (timed) · Oct 31: review [my mistakes](mistakes.md) · Nov 1: [Mock midterm B](practice/mock-midterm-b.md) |
 | **Nov 2** | **Midterm** |
 
 The website was built early (10 Oct) so every topic already has a draft note. A topic only counts as
@@ -88,8 +88,8 @@ At the start of every topic, and again whenever something isn't clicking, I'm as
 ## 7. Later phases
 
 - **Phase 2:** MkDocs Material site over `notes/`, deployed free with GitHub Pages + GitHub Actions. ✅ built 10 Oct, see [How this site works](how-this-site-works.md).
-- **Phase 3:** Anki-importable flashcard CSV, links to VisuAlgo visualisers, timed "exam mode" from notes + mistakes.
-- **Phase 4 (optional):** `CONTRIBUTING.md` for classmates, plus a check that no copyrighted material is in the repo.
+- **Phase 3:** Anki-importable flashcard CSV, links to VisuAlgo visualisers, timed "exam mode" from notes + mistakes. ✅ built 10 Oct: `flashcards/daa-flashcards.csv`, *See it move* links on each topic page, [Mock midterm A](practice/mock-midterm.md) and [B](practice/mock-midterm-b.md).
+- **Phase 4 (optional):** `CONTRIBUTING.md` for classmates, plus a check that no copyrighted material is in the repo. ✅ built 10 Oct: [Contributing](contributing.md), and GitHub Actions refuses to publish if a PDF or slide file is ever committed.
 
 ## 8. Open items
 

@@ -17,6 +17,15 @@ Status key: ⬜ not started · 🟡 in progress · ✅ mastered
 | 7 | Divide & conquer + merge sort | ⬜ | — | — | — |
 | 8 | Recurrences | ⬜ | — | — | — |
 
+## Mock exams
+
+<!-- Write your score after each timed paper. "Weak" = questions where you lost more than 40% of the marks. -->
+
+| Date | Paper | Score /50 | Weak questions → topics to redo |
+|---|---|---|---|
+|  | A |  |  |
+|  | B |  |  |
+
 ## Session log
 
 <!-- One line per session: date · topic · mode used · what clicked · what to revisit -->

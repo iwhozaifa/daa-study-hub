@@ -51,7 +51,7 @@ Halving outer loop with inner work i,"n + n/2 + … ≈ 2n, which is Θ(n)",t5 l
 Space of a recursion n levels deep,Θ(n) stack frames,t5 space
 f = O(g) definition,"∃ c, n0 > 0: f(n) ≤ c·g(n) for all n ≥ n0",t6 asymptotic
 f = Ω(g) definition,"∃ c, n0 > 0: f(n) ≥ c·g(n) for all n ≥ n0",t6 asymptotic
-f = Θ(g) definition,"∃ c1, c2, n0: c1·g(n) ≤ f(n) ≤ c2·g(n) for all n ≥ n0",t6 asymptotic
+f = Θ(g) definition,"Positive constants c1, c2, n0 exist so that f(n) is sandwiched: c1·g(n) ≤ f(n) ≤ c2·g(n) whenever n ≥ n0",t6 asymptotic
 f = Θ(g) iff…,f = O(g) and f = Ω(g),t6 asymptotic
 Growth ladder,1 < log n < √n < n < n log n < n² < n³ < 2ⁿ < n! < nⁿ,t6 asymptotic
 How to disprove f = O(g),"Assume c, n0 exist; derive n ≤ constant for all large n, a contradiction",t6 asymptotic
