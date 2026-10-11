@@ -7,6 +7,10 @@ const BASE = '/daa-study-hub';
 const TOPIC_4 = `${BASE}/docs/topics/04-insertion-sort`;
 const TOPIC_6 = `${BASE}/docs/topics/06-asymptotic-notation`;
 
+// Stub the Cloudflare Web Analytics beacon so test runs don't count as visits.
+const ANALYTICS = /cloudflareinsights\.com/;
+test.beforeEach(({ page }) => page.route(ANALYTICS, (r) => r.fulfill({ contentType: 'text/javascript', body: '' })));
+
 /** Collects uncaught errors and console errors on a page. */
 function watchErrors(page: Page) {
   const errors: string[] = [];

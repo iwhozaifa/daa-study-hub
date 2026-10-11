@@ -68,6 +68,7 @@ loop invariants, insertion sort, Big-O/Ω/Θ, merge sort and recurrences.
 | Language         | [TypeScript](https://www.typescriptlang.org)                                              |
 | Testing          | [Vitest](https://vitest.dev) (unit/content), [Playwright](https://playwright.dev) + axe-core (E2E & accessibility) |
 | CI / hosting     | GitHub Actions → GitHub Pages                                                             |
+| Visitor stats    | [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/) (cookie-free)       |
 
 ## Run it locally
 

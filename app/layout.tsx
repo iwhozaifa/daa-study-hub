@@ -1,5 +1,6 @@
 import { Bebas_Neue, Inter, JetBrains_Mono } from 'next/font/google';
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Provider } from '@/components/provider';
 import './global.css';
 
@@ -17,6 +18,12 @@ export default function Layout({ children }: LayoutProps<'/'>) {
     <html lang="en" className={`${inter.variable} ${bebas.variable} ${mono.variable} font-sans`} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
         <Provider>{children}</Provider>
+        {/* Cloudflare Web Analytics: cookie-free visitor stats, dashboard at dash.cloudflare.com */}
+        <Script
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "fe1365bc36534b8189d79d2b97dbabba"}'
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

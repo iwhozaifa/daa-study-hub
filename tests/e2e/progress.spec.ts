@@ -6,6 +6,10 @@ const BASE = '/daa-study-hub';
 const TOPIC_4 = `${BASE}/docs/topics/04-insertion-sort`;
 const PROGRESS = `${BASE}/docs/progress`;
 
+// Stub the Cloudflare Web Analytics beacon so test runs don't count as visits.
+const ANALYTICS = /cloudflareinsights\.com/;
+test.beforeEach(({ page }) => page.route(ANALYTICS, (r) => r.fulfill({ contentType: 'text/javascript', body: '' })));
+
 async function masterTopic4(page: Page) {
   await page.goto(TOPIC_4);
   const card = page.getByTestId('mastery-tracker');
@@ -107,7 +111,7 @@ test('a broken file is rejected and reset erases everything', async ({ page }) =
 test('nothing is sent to any server while using the tracker', async ({ page }) => {
   const outside: string[] = [];
   page.on('request', (r) => {
-    if (!r.url().startsWith('http://localhost:4321/')) outside.push(r.url());
+    if (!r.url().startsWith('http://localhost:4321/') && !ANALYTICS.test(r.url())) outside.push(r.url());
   });
   await masterTopic4(page);
   await page.goto(PROGRESS);
