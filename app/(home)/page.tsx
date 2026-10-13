@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, BookOpenCheck, Download, Eye, ListChecks, MessageCircleQuestion, Swords, TriangleAlert } from 'lucide-react';
+import { ArrowRight, BookOpenCheck, Eye, Layers, ListChecks, MessageCircleQuestion, Swords, TriangleAlert } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,12 +20,7 @@ const tools = [
   { href: '/docs/cheatsheet', icon: ListChecks, name: 'Cheatsheet', text: 'Every formula on one page' },
   { href: '/docs/which-technique', icon: MessageCircleQuestion, name: 'Which technique?', text: 'Read a question, pick the method' },
   { href: '/docs/mistakes', icon: TriangleAlert, name: 'My mistakes', text: 'Never repeat an error' },
-  {
-    href: 'https://github.com/iwhozaifa/daa-study-hub/raw/main/flashcards/daa-flashcards.csv',
-    icon: Download,
-    name: 'Anki flashcards',
-    text: '70 cards, spaced repetition',
-  },
+  { href: '/docs/flashcards', icon: Layers, name: 'Flashcards', text: '70 cards: flip them here or import into Anki' },
 ];
 
 export default function HomePage() {

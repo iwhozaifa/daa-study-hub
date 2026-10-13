@@ -2,6 +2,7 @@ import defaultMdxComponents from 'fumadocs-ui/mdx';
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 import type { MDXComponents } from 'mdx/types';
+import { FlashcardsFromCsv } from '@/components/flashcards/flashcards-server';
 import { Mermaid } from '@/components/mermaid';
 import { MasteryTracker } from '@/components/progress/mastery-tracker';
 import { MockScoreForm } from '@/components/progress/mock-score-form';
@@ -15,6 +16,7 @@ export function getMDXComponents(components?: MDXComponents) {
     Accordions,
     Accordion,
     Mermaid,
+    Flashcards: FlashcardsFromCsv,
     MasteryTracker,
     MockScoreForm,
     MyProgress: MyProgressFromNotes,

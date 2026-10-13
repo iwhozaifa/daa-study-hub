@@ -3,6 +3,7 @@ import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { CSV_PATH, cardLines, loadFlashcards, parseCsvLine } from '../lib/flashcards';
 import { DOCS, ROOT, mdxFiles, read } from './helpers';
 
 const files = mdxFiles();
@@ -142,27 +143,9 @@ describe('mock midterms', () => {
 });
 
 describe('flashcards', () => {
-  const lines = fs.readFileSync(path.join(ROOT, 'flashcards/daa-flashcards.csv'), 'utf8').trim().split('\n');
+  const lines = fs.readFileSync(path.join(ROOT, CSV_PATH), 'utf8').trim().split('\n');
   const header = lines.filter((l) => l.startsWith('#'));
-  const cards = lines.filter((l) => !l.startsWith('#'));
-
-  function parseCsvLine(line: string): string[] {
-    const cells: string[] = [];
-    let cur = '';
-    let quoted = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      if (quoted) {
-        if (ch === '"' && line[i + 1] === '"') (cur += '"'), i++;
-        else if (ch === '"') quoted = false;
-        else cur += ch;
-      } else if (ch === '"') quoted = true;
-      else if (ch === ',') cells.push(cur), (cur = '');
-      else cur += ch;
-    }
-    cells.push(cur);
-    return cells;
-  }
+  const cards = cardLines(ROOT);
 
   it('has the Anki import header', () => {
     expect(header).toEqual(['#separator:comma', '#html:false', '#columns:Front,Back,Tags', '#tags column:3']);
@@ -178,6 +161,17 @@ describe('flashcards', () => {
       expect(c[2]).toMatch(/^t[0-8] /);
     }
     expect(new Set(parsed.map((c) => c[0])).size).toBe(parsed.length);
+  });
+
+  it('loads into the site deck with a topic for every card', () => {
+    const deck = loadFlashcards(ROOT);
+    expect(deck).toHaveLength(cards.length);
+    expect(deck.every((c) => /^t[0-8]$/.test(c.topic))).toBe(true);
+    expect(deck[0].back).toBe('b^y = x ("what power of b gives x?")');
+  });
+
+  it('the flashcards page shows the deck', () => {
+    expect(read('flashcards.mdx')).toContain('<Flashcards />');
   });
 });
 

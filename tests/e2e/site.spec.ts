@@ -42,6 +42,49 @@ test.describe('home page', () => {
   });
 });
 
+test.describe('flashcards', () => {
+  test('the home toolbox opens the flashcards page', async ({ page }) => {
+    await page.goto(`${BASE}/`);
+    await page.getByRole('link', { name: /Flashcards/ }).click();
+    await expect(page).toHaveURL(/docs\/flashcards/);
+  });
+
+  test('cards flip, move, and filter by topic', async ({ page }) => {
+    const errors = watchErrors(page);
+    await page.goto(`${BASE}/docs/flashcards`);
+    const card = page.getByTestId('flashcard');
+    const count = page.getByTestId('flashcard-count');
+    await expect(count).toHaveText('Card 1 / 70');
+    await expect(card).toContainText('log_b(x) = y means');
+    await expect(card).toHaveAttribute('data-flipped', 'false');
+
+    await card.click();
+    await expect(card).toHaveAttribute('data-flipped', 'true');
+    await expect(page.getByText('Answer: b^y = x', { exact: false })).toBeAttached();
+
+    await page.getByRole('button', { name: /Next/ }).click();
+    await expect(count).toHaveText('Card 2 / 70');
+    await expect(card).toHaveAttribute('data-flipped', 'false');
+    await page.keyboard.press('ArrowLeft'); // focus is inside the deck after the click
+    await expect(count).toHaveText('Card 1 / 70');
+
+    await page.getByRole('radio', { name: 'Topic 4' }).click();
+    await expect(count).toHaveText('Card 1 / 6');
+    await expect(card).toContainText('t4');
+
+    await page.getByRole('button', { name: /Shuffle/ }).click();
+    await expect(count).toHaveText('Card 1 / 6');
+    expect(errors).toEqual([]);
+  });
+
+  test('has no accessibility violations', async ({ page }) => {
+    await page.goto(`${BASE}/docs/flashcards`);
+    await page.getByTestId('flashcard').click();
+    const { violations } = await new AxeBuilder({ page }).include('[data-testid="flashcards"]').analyze();
+    expect(violations).toEqual([]);
+  });
+});
+
 test.describe('every note page', () => {
   for (const file of mdxFiles()) {
     test(`${file} loads without errors`, async ({ page }) => {
@@ -105,7 +148,7 @@ test.describe('site features', () => {
     await expect(page.locator('html')).not.toHaveClass(/dark/);
   });
 
-  for (const path of ['/', '/docs/topics/04-insertion-sort', '/docs/practice/mock-midterm']) {
+  for (const path of ['/', '/docs/topics/04-insertion-sort', '/docs/practice/mock-midterm', '/docs/flashcards']) {
     test(`no sideways scrolling on a phone: ${path}`, async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto(BASE + path);

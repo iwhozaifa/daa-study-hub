@@ -124,6 +124,7 @@ in ordinary text, because `{` and `<` mean "code" to MDX. Inside `$maths$` and c
 
 ## Flashcards (Anki)
 
-`flashcards/daa-flashcards.csv` holds 70 cards (`Front,Back,Tags`), tagged by topic (for example `t4 insertion`). Open Anki →
-**File → Import** → pick the CSV. The `#…` lines at the top already set the separator and columns. Anki then schedules
-spaced repetition for you, which is why we use it instead of building a quiz app.
+`flashcards/daa-flashcards.csv` holds 70 cards (`Front,Back,Tags`), tagged by topic (for example `t4 insertion`). It is the
+only copy of the cards. The [Flashcards](flashcards.mdx) page reads it when the site is built, so a new row in the CSV becomes
+a new card there with no code changes. The same file still imports into Anki (**File → Import** → pick the CSV; the `#…`
+lines at the top set the separator and columns). For spaced repetition, use Anki: the site only flips cards and saves nothing.
