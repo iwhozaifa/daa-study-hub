@@ -4,6 +4,10 @@
 @import 'fumadocs-ui/css/preset.css';
 @import 'katex/dist/katex.min.css';
 
+/* Fumadocs' search dialog ships these two classes, but Next's CSS parser doesn't know ::highlight() yet,
+   so it warns on every compile and drops the rule anyway. Skip generating them. */
+@source not inline("[&_::highlight(fd-search)]:text-fd-primary [&_::highlight(fd-search)]:underline");
+
 @custom-variant dark (&:is(.dark *));
 
 /*
