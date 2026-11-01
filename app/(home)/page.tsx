@@ -14,7 +14,6 @@ const modes = [
   { icon: Swords, name: 'Explanation & drill', text: 'A straight explanation, then practice.' },
 ];
 
-const week = ['Oct 12–17', 'Oct 12–17', 'Oct 12–17', 'Oct 12–17', 'Oct 18–24', 'Oct 18–24', 'Oct 18–24', 'Oct 25–29', 'Oct 25–29', 'After midterm', 'After midterm', 'After midterm'];
 
 const tools = [
   { href: '/docs/cheatsheet', icon: ListChecks, name: 'Cheatsheet', text: 'Every formula on one page' },
@@ -88,7 +87,7 @@ export default function HomePage() {
           Twelve topics. <span className="text-blood">One course.</span>
         </h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-testid="topic-grid">
-          {topics.map((page, i) => {
+          {topics.map((page) => {
             const [num, ...rest] = page.data.title.split(' · ');
             return (
               <Link key={page.url} href={page.url} className="group">
@@ -97,7 +96,7 @@ export default function HomePage() {
                     <div className="flex items-start justify-between gap-3">
                       <span className="topic-num font-display text-6xl leading-none">{num}</span>
                       <Badge variant="outline" className="border-gold text-gold">
-                        {week[i]}
+                        Midterm
                       </Badge>
                     </div>
                     <CardTitle className="mt-3 text-lg group-hover:text-hazard">{rest.join(' · ')}</CardTitle>
