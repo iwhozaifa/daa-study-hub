@@ -92,3 +92,34 @@ For $T(n) = aT(n/b) + f(n)$: level $i$ has $a^i$ nodes of size $n/b^i$, there ar
 | $4T(n/2) + n$ | $n^2$ |
 | $T(n-1) + 1$ | $n$ |
 | $T(n-1) + n$ | $n^2$ |
+
+## Master method
+
+*Details: [Topic 9](topics/09-master-method.mdx)*
+
+For $T(n) = aT(n/b) + f(n)$, compare $f(n)$ with the watershed $n^{\log_b a}$:
+
+| Case | $f(n)$ is… | $T(n)$ |
+|---|---|---|
+| 1 | $O(n^{\log_b a - \varepsilon})$: polynomially smaller | $\Theta(n^{\log_b a})$ |
+| 2 | $\Theta(n^{\log_b a}\lg^k n)$, $k \ge 0$ | $\Theta(n^{\log_b a}\lg^{k+1} n)$ |
+| 3 | $\Omega(n^{\log_b a + \varepsilon})$ **and** $af(n/b) \le cf(n)$, $c < 1$ | $\Theta(f(n))$ |
+
+- Iteration: $a^{\log_b n} = n^{\log_b a}$; $3T(n/4) + n = 4n - 3n^{\log_4 3} = \Theta(n)$.
+- Not covered by the theorem: $T(n-1)$, uneven splits, $f = n/\lg n$.
+
+## Quicksort & selection
+
+*Details: [Topic 10](topics/10-quicksort-and-selection.mdx)*
+
+- Partition (pivot $= A[r]$): $n - 1$ comparisons; invariant `A[p..i]` $\le x$ < `A[i+1..j−1]`.
+- Quicksort: worst $\Theta(n^2)$ (sorted input), best and average $\Theta(n\log n)$; any constant-ratio split is $\Theta(n\log n)$. In place, not stable.
+- Randomized-Select: expected $\Theta(n)$, worst $\Theta(n^2)$. Median of medians: worst $\Theta(n)$ via $T(n/5) + T(3n/4) + \Theta(n)$.
+- Nuts & bolts: partition nuts with a bolt, then bolts with the matching nut, $\Theta(n\log n)$ expected.
+
+## Maximum subarray
+
+*Details: [Topic 11](topics/11-maximum-subarray.mdx)*
+
+- Brute force $\Theta(n^2)$; D&C best of left / right / crossing, $T(n) = 2T(n/2) + \Theta(n) = \Theta(n\log n)$.
+- Crossing: sweep left from $mid$ and right from $mid+1$, each sum starting at $-\infty$.

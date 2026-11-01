@@ -12,7 +12,11 @@ const ALL = 'all';
 
 /** Flip-through deck for the Anki CSV: filter by topic, shuffle, flip with click/Space, move with ← →. */
 export function FlashcardDeck({ cards }: { cards: Flashcard[] }) {
-  const topics = useMemo(() => [...new Set(cards.map((c) => c.topic))].sort(), [cards]);
+  // numeric order, so t10 comes after t9 rather than after t1
+  const topics = useMemo(
+    () => [...new Set(cards.map((c) => c.topic))].sort((a, b) => a.localeCompare(b, undefined, { numeric: true })),
+    [cards],
+  );
   const [topic, setTopic] = useState(ALL);
   const [order, setOrder] = useState<number[] | null>(null); // null = file order
   const [pos, setPos] = useState(0);
