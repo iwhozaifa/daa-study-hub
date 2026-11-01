@@ -41,7 +41,7 @@ at the top, at the bottom, or spread evenly?*
 
 - **Expansion (iteration):** substitute the recurrence into itself a few times, spot the pattern, then sum. Best for $T(n) = T(n-1) + \dots$
 - **Substitution (guess and verify):** guess the answer (often from the tree), then prove it by induction ([Topic 2](02-proof-techniques.mdx)).
-- **Master theorem** (CLRS §4.5): a shortcut for the three rows above. Not in the slides yet, so use it to *check* answers unless your instructor allows it.
+- **Master theorem** (CLRS §4.5): a shortcut for the three rows above, covered in [Topic 9](09-master-method.mdx) together with the iteration method.
 
 ---
 
@@ -121,6 +121,18 @@ $$
 T(n) \le 2\cdot c\frac n2\log_2\frac n2 + n = cn(\log_2 n - 1) + n = cn\log_2 n - cn + n \le cn\log_2 n \quad\text{if } c \ge 1.
 $$
 - **Base:** with $T(1) = 1$, we get $T(2) = 4 \le c\cdot2\log_2 2 = 2c$, so choose $c \ge 2$. With $c = 2$ both conditions hold, so $T(n) = O(n\log n)$ ∎
+
+**D. An unbalanced tree:** $T(n) = T(n/3) + T(2n/3) + n$.
+
+| Level | pieces | level total |
+|---|---|---|
+| 0 | $n$ | $n$ |
+| 1 | $\frac n3, \frac{2n}{3}$ | $n$ |
+| 2 | $\frac n9, \frac{2n}9, \frac{2n}9, \frac{4n}9$ | $n$ |
+
+Every *full* level costs $n$, but the branches end at different depths. The shortest path (always $\frac13$) has
+$\log_3 n$ levels and the longest (always $\frac23$) has $\log_{3/2} n$. Both are $\Theta(\log n)$, so the guess is
+$\Theta(n\log n)$. A tree like this is a good way to **guess**, but it is not a proof. Confirm the guess with substitution as in C.
 
 </Tab>
 <Tab value="Guided questions">
@@ -273,5 +285,8 @@ Each level costs $4^i\cdot(n/2^i)^2 = n^2$ (equal) over $\log_2 n + 1$ levels, s
 ## References
 
 - 08 *Divide & Conquer, Recurrences*: Slides 25–29 (merge sort recurrence and full recursion tree), 30–33 (techniques, recursion-tree method), 34–42 (worked recursion-tree examples, including an uneven split).
+- 05 *Divide & Conquer, Merge Sort, Solving Recurrences (Part 1)*: Slides 25–29 (merge sort recurrence and recursion tree), 31–41 (techniques and recursion-tree examples).
+- 05b *Recursion Trees Examples*: pp. 1–2 ($2T(n/2) + n^2$ and the unbalanced $T(n/3) + T(2n/3) + n$). 05c *Substitution Method Example*: p. 1 ($T(n-1) + n$ by repeated substitution).
+- 06 *Solving Recurrences (Part II)*: Slides 3–9 (iteration method); the master method continues in [Topic 9](09-master-method.mdx).
 - *Supplementary Notes: Proof techniques* p. 6 (verifying a recurrence's closed form by induction).
 - CLRS 4e §4.3 (substitution method), §4.4 (recursion-tree method), §4.5 (master method, a preview), Appendix A (geometric series).

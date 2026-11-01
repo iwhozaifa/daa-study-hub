@@ -72,3 +72,21 @@ T(n) = 4T(n/2) + n,Θ(n²) (leaves dominate),t8 recurrences
 T(n) = T(n/2) + n,Θ(n),t8 recurrences
 T(n) = T(n−1) + n,"Θ(n²), by expansion to 1+2+…+n",t8 recurrences
 Substitution method,"Guess the answer (e.g. from a tree), then prove it by induction with the same constant c",t8 recurrences
+Master method: what do you compare f(n) with?,"The watershed n^(log_b a), the total cost of the leaves",t9 master
+Master case 1,"f(n) polynomially smaller than n^(log_b a): T(n) = Θ(n^(log_b a))",t9 master
+Master case 2,"f(n) = Θ(n^(log_b a) lg^k n): T(n) = Θ(n^(log_b a) lg^(k+1) n)",t9 master
+Master case 3,"f(n) polynomially bigger AND a·f(n/b) ≤ c·f(n) with c < 1 (regularity): T(n) = Θ(f(n))",t9 master
+a^(log_b n) equals…,n^(log_b a),t9 master
+T(n) = 3T(n/4) + n (iteration),"4n − 3n^(log_4 3) = Θ(n)",t9 master
+When does the master theorem NOT apply?,"T(n−1) recurrences, uneven splits like T(n/3)+T(2n/3), or f = n/lg n (gap between cases)",t9 master
+Partition (Lomuto) comparisons on n elements,n − 1,t10 quicksort
+Partition loop invariant,"A[p..i] ≤ pivot, A[i+1..j−1] > pivot, A[r] = pivot",t10 quicksort
+Quicksort worst case,"Θ(n²): split n−1 and 0 each time, e.g. already-sorted input with last-element pivot",t10 quicksort
+Quicksort with a 9:1 split,"Still Θ(n log n): any constant-ratio split gives Θ(log n) levels of ≤ cn",t10 quicksort
+Is quicksort stable / in place?,"Not stable, but in place",t10 quicksort
+Randomized-Select running time,"Expected Θ(n), worst case Θ(n²)",t10 quicksort
+Median of medians recurrence,"T(n) ≤ T(n/5) + T(3n/4) + Θ(n) = Θ(n) worst case",t10 quicksort
+Nuts and bolts in Θ(n log n),"Partition the nuts around a bolt, then the bolts around the matching nut; recurse on both sides",t10 quicksort
+Maximum subarray: the three D&C cases,"Entirely left of mid, entirely right of mid, or crossing mid",t11 maxsubarray
+Max subarray: brute force vs D&C,"Θ(n²) vs Θ(n log n) from T(n) = 2T(n/2) + Θ(n)",t11 maxsubarray
+How is the crossing subarray found?,"Sweep left from mid and right from mid+1 keeping the best running sums (start at −∞), then add them",t11 maxsubarray

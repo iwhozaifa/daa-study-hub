@@ -220,3 +220,226 @@ describe('Mock midterm B answers', () => {
     }
   });
 });
+
+/** Lomuto partition of a[p..r] (0-based) around a[r], as in the slides; returns the pivot's index. */
+function partition(a: number[], p: number, r: number) {
+  const x = a[r];
+  let i = p - 1;
+  let comparisons = 0;
+  for (let j = p; j < r; j++) {
+    comparisons++;
+    if (a[j] <= x) {
+      i++;
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+  }
+  [a[i + 1], a[r]] = [a[r], a[i + 1]];
+  return { q: i + 1, comparisons };
+}
+
+function quicksortComparisons(input: number[]) {
+  const a = [...input];
+  let total = 0;
+  const go = (p: number, r: number) => {
+    if (p >= r) return;
+    const { q, comparisons } = partition(a, p, r);
+    total += comparisons;
+    go(p, q - 1);
+    go(q + 1, r);
+  };
+  go(0, a.length - 1);
+  return { sorted: a, comparisons: total };
+}
+
+/** i-th smallest (1-based), always pivoting on the last element; records the pivot of each call. */
+function select(input: number[], i: number) {
+  const a = [...input];
+  const pivots: number[] = [];
+  let p = 0;
+  let r = a.length - 1;
+  for (;;) {
+    if (p === r) return { value: a[p], pivots };
+    const { q } = partition(a, p, r);
+    pivots.push(a[q]);
+    const k = q - p + 1;
+    if (i === k) return { value: a[q], pivots };
+    if (i < k) r = q - 1;
+    else {
+      i -= k;
+      p = q + 1;
+    }
+  }
+}
+
+type Sub = { lo: number; hi: number; sum: number }; // 1-based, inclusive
+
+function maxSubarrayBrute(a: number[]): Sub {
+  let best: Sub = { lo: 1, hi: 1, sum: -Infinity };
+  for (let i = 0; i < a.length; i++) {
+    let s = 0;
+    for (let j = i; j < a.length; j++) {
+      s += a[j];
+      if (s > best.sum) best = { lo: i + 1, hi: j + 1, sum: s };
+    }
+  }
+  return best;
+}
+
+/** MaxCrossingSubarray from the slides (0-based arguments, 1-based result). */
+function maxCrossing(a: number[], low: number, mid: number, high: number): Sub {
+  let leftsum = -Infinity;
+  let rightsum = -Infinity;
+  let maxleft = mid;
+  let maxright = mid + 1;
+  let s = 0;
+  for (let i = mid; i >= low; i--) {
+    s += a[i];
+    if (s > leftsum) [leftsum, maxleft] = [s, i];
+  }
+  s = 0;
+  for (let j = mid + 1; j <= high; j++) {
+    s += a[j];
+    if (s > rightsum) [rightsum, maxright] = [s, j];
+  }
+  return { lo: maxleft + 1, hi: maxright + 1, sum: leftsum + rightsum };
+}
+
+/** MaxSubarray from the slides: ties prefer left, then right, then crossing. */
+function maxSubarray(a: number[], low = 0, high = a.length - 1): Sub {
+  if (low === high) return { lo: low + 1, hi: high + 1, sum: a[low] };
+  const mid = Math.floor((low + high) / 2);
+  const l = maxSubarray(a, low, mid);
+  const r = maxSubarray(a, mid + 1, high);
+  const x = maxCrossing(a, low, mid, high);
+  if (l.sum >= r.sum && l.sum >= x.sum) return l;
+  if (r.sum >= l.sum && r.sum >= x.sum) return r;
+  return x;
+}
+
+describe('Topic 9: iteration and master method', () => {
+  const note = read('topics/09-master-method.mdx');
+
+  it('3T(n/4) + n with T(1) = 1 is exactly 4n − 3n^(log_4 3)', () => {
+    const t = (n: number): number => (n === 1 ? 1 : 3 * t(n / 4) + n);
+    for (let k = 0; k <= 10; k++) {
+      const n = 4 ** k;
+      expect(Math.abs(t(n) - (4 * n - 3 * n ** (Math.log(3) / Math.log(4))))).toBeLessThan(1e-6 * n);
+    }
+    expect(t(4)).toBe(7);
+    expect(note).toContain('4n - 3n^{\\log_4 3}');
+  });
+
+  it('2T(n/2) + n with T(1) = 1 is exactly n + n log2 n', () => {
+    const t = (n: number): number => (n === 1 ? 1 : 2 * t(n / 2) + n);
+    for (let k = 0; k <= 20; k++) expect(t(2 ** k)).toBe(2 ** k + k * 2 ** k);
+  });
+
+  it('master-method examples match a direct evaluation (ratio settles to a constant)', () => {
+    const ratio = (t: (n: number) => number, g: (n: number) => number) => [2 ** 12, 2 ** 16].map((n) => t(n) / g(n));
+    const rec = (a: number, f: (n: number) => number) => {
+      const t = (n: number): number => (n <= 1 ? 1 : a * t(n / 2) + f(n));
+      return t;
+    };
+    for (const [a, f, g] of [
+      [4, (n: number) => n, (n: number) => n * n],
+      [4, (n: number) => n * n, (n: number) => n * n * Math.log2(n)],
+      [4, (n: number) => n ** 3, (n: number) => n ** 3],
+      [2, () => 1, (n: number) => n],
+    ] as const) {
+      const [r1, r2] = ratio(rec(a, f), g);
+      expect(Math.abs(r1 - r2) / r2).toBeLessThan(0.1);
+    }
+  });
+});
+
+describe('Topic 10: partition, quicksort and selection', () => {
+  const note = read('topics/10-quicksort-and-selection.mdx');
+
+  it('partition [2,8,7,1,3,5,6,4] → [2,1,3,4,7,5,6,8], q = 4, 7 comparisons', () => {
+    const a = [2, 8, 7, 1, 3, 5, 6, 4];
+    const { q, comparisons } = partition(a, 0, 7);
+    expect(a).toEqual([2, 1, 3, 4, 7, 5, 6, 8]);
+    expect([q + 1, comparisons]).toEqual([4, 7]);
+    expect(note).toContain('**7 comparisons**');
+  });
+
+  it('drill: partition [4,7,1,6,3,5] → [4,1,3,5,7,6], q = 4', () => {
+    const a = [4, 7, 1, 6, 3, 5];
+    const { q, comparisons } = partition(a, 0, 5);
+    expect(a).toEqual([4, 1, 3, 5, 7, 6]);
+    expect([q + 1, comparisons]).toEqual([4, 5]);
+  });
+
+  it('mastery: partition [5,3,8,1,9,2,7] → [5,3,1,2,7,8,9], q = 5, 6 comparisons; 3rd smallest is 3', () => {
+    const a = [5, 3, 8, 1, 9, 2, 7];
+    const { q, comparisons } = partition(a, 0, 6);
+    expect(a).toEqual([5, 3, 1, 2, 7, 8, 9]);
+    expect([q + 1, comparisons]).toEqual([5, 6]);
+    expect(select([5, 3, 8, 1, 9, 2, 7], 3)).toEqual({ value: 3, pivots: [7, 2, 3] });
+    expect(note).toContain('**6 comparisons**');
+  });
+
+  it('select agrees with sorting on random inputs', () => {
+    for (let t = 0; t < 200; t++) {
+      const n = 1 + (t % 15);
+      const a = Array.from({ length: n }, (_, k) => (k * 7919 + t * 104729) % 97);
+      const sorted = [...a].sort((x, y) => x - y);
+      for (let i = 1; i <= n; i++) expect(select(a, i).value).toBe(sorted[i - 1]);
+    }
+  });
+
+  it('quicksort on sorted input makes n(n−1)/2 comparisons', () => {
+    for (let n = 1; n <= 40; n++) {
+      const r = quicksortComparisons(Array.from({ length: n }, (_, k) => k));
+      expect(r.comparisons).toBe((n * (n - 1)) / 2);
+    }
+    expect(quicksortComparisons([1, 2, 3, 4, 5]).comparisons).toBe(10);
+  });
+
+  it('median of medians: 3⌊n/10⌋ ≥ n/4 from n = 50, and 1/5 + 3/4 = 19/20', () => {
+    for (let n = 50; n <= 5000; n++) expect(3 * Math.floor(n / 10)).toBeGreaterThanOrEqual(n / 4);
+    expect(1 / 5 + 3 / 4).toBeCloseTo(19 / 20);
+  });
+});
+
+describe('Topic 11: maximum subarray', () => {
+  const note = read('topics/11-maximum-subarray.mdx');
+
+  it('stock example: changes give A[8..11], sum 43', () => {
+    const price = [100, 113, 110, 85, 105, 102, 86, 63, 81, 101, 94, 106];
+    const change = price.slice(1).map((p, d) => p - price[d]);
+    expect(change).toEqual([13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12]);
+    expect(maxSubarray(change)).toEqual({ lo: 8, hi: 11, sum: 43 });
+    expect(note).toContain('**`A[8..11]`, sum 43**');
+  });
+
+  it('lecture examples 1 and 2', () => {
+    expect(maxSubarray([1, -4, 3, -4])).toEqual({ lo: 3, hi: 3, sum: 3 });
+    expect(maxSubarray([1, -4, 3, 4, -2, 6])).toEqual({ lo: 3, hi: 6, sum: 11 });
+  });
+
+  it('worked example [−2,1,−3,4,−1,2,1,−5]: crossing A[4..7] = 6 wins', () => {
+    const a = [-2, 1, -3, 4, -1, 2, 1, -5];
+    expect(maxSubarray(a.slice(0, 4))).toEqual({ lo: 4, hi: 4, sum: 4 });
+    expect(maxSubarray(a.slice(4)).sum).toBe(3);
+    expect(maxCrossing(a, 0, 3, 7)).toEqual({ lo: 4, hi: 7, sum: 6 });
+    expect(maxSubarray(a)).toEqual({ lo: 4, hi: 7, sum: 6 });
+  });
+
+  it('drill 3 and mastery answers', () => {
+    expect(maxCrossing([2, -1, -2, 3, 1, -4, 5], 0, 3, 6)).toEqual({ lo: 4, hi: 7, sum: 5 });
+    const m = [3, -5, 4, -1, 2, -6, 5, 1];
+    expect(maxSubarray(m.slice(0, 4))).toEqual({ lo: 3, hi: 3, sum: 4 });
+    expect(maxSubarray(m.slice(4)).sum).toBe(6);
+    expect(maxCrossing(m, 0, 3, 7)).toEqual({ lo: 3, hi: 5, sum: 5 });
+    expect(maxSubarray(m)).toEqual({ lo: 7, hi: 8, sum: 6 });
+  });
+
+  it('divide & conquer agrees with brute force on random arrays', () => {
+    for (let t = 0; t < 300; t++) {
+      const n = 1 + (t % 20);
+      const a = Array.from({ length: n }, (_, k) => ((k * 37 + t * 101) % 41) - 20);
+      expect(maxSubarray(a).sum).toBe(maxSubarrayBrute(a).sum);
+    }
+  });
+});

@@ -14,13 +14,13 @@ const modes = [
   { icon: Swords, name: 'Explanation & drill', text: 'A straight explanation, then practice.' },
 ];
 
-const week = ['Oct 12–17', 'Oct 12–17', 'Oct 12–17', 'Oct 12–17', 'Oct 18–24', 'Oct 18–24', 'Oct 18–24', 'Oct 25–29', 'Oct 25–29'];
+const week = ['Oct 12–17', 'Oct 12–17', 'Oct 12–17', 'Oct 12–17', 'Oct 18–24', 'Oct 18–24', 'Oct 18–24', 'Oct 25–29', 'Oct 25–29', 'After midterm', 'After midterm', 'After midterm'];
 
 const tools = [
   { href: '/docs/cheatsheet', icon: ListChecks, name: 'Cheatsheet', text: 'Every formula on one page' },
   { href: '/docs/which-technique', icon: MessageCircleQuestion, name: 'Which technique?', text: 'Read a question, pick the method' },
   { href: '/docs/mistakes', icon: TriangleAlert, name: 'My mistakes', text: 'Never repeat an error' },
-  { href: '/docs/flashcards', icon: Layers, name: 'Flashcards', text: '70 cards: flip them here or import into Anki' },
+  { href: '/docs/flashcards', icon: Layers, name: 'Flashcards', text: '88 cards: flip them here or import into Anki' },
 ];
 
 export default function HomePage() {
@@ -85,7 +85,7 @@ export default function HomePage() {
       {/* Topics */}
       <section className="mx-auto max-w-6xl px-4 pb-14">
         <h2 className="font-display text-4xl tracking-wide">
-          Nine topics. <span className="text-blood">One midterm.</span>
+          Twelve topics. <span className="text-blood">One course.</span>
         </h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-testid="topic-grid">
           {topics.map((page, i) => {
