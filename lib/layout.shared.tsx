@@ -1,4 +1,5 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
+import { Logo } from '@/components/logo';
 import { gitConfig } from './shared';
 
 // The GitHub mark with an accessible name (the template's built-in icon has none).
@@ -15,8 +16,11 @@ export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
       title: (
-        <span className="font-display text-2xl leading-none tracking-wide">
-          DAA <span className="text-hazard">Study Hub</span>
+        <span className="flex items-center gap-2">
+          <Logo />
+          <span className="font-display text-2xl leading-none tracking-wide">
+            DAA <span className="text-hazard">Study Hub</span>
+          </span>
         </span>
       ),
     },
