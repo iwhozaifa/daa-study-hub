@@ -123,3 +123,22 @@ For $T(n) = aT(n/b) + f(n)$, compare $f(n)$ with the watershed $n^{\log_b a}$:
 
 - Brute force $\Theta(n^2)$; D&C best of left / right / crossing, $T(n) = 2T(n/2) + \Theta(n) = \Theta(n\log n)$.
 - Crossing: sweep left from $mid$ and right from $mid+1$, each sum starting at $-\infty$.
+
+## Graphs & BFS
+
+*Details: [Topic 12](topics/12-graphs-and-bfs.mdx)*
+
+- $n = |V|$, $m = |E|$. Undirected: $\sum\deg(v) = 2m$. Directed: $\sum\text{in} = \sum\text{out} = m$.
+- Tree: any two of these three (connected, acyclic, $n - 1$ edges) imply the third.
+- Adjacency matrix: $\Theta(n^2)$ space, edge test $\Theta(1)$. Adjacency list: $\Theta(n + m)$ space, edge test $O(\deg u)$.
+- BFS: queue, mark on **enqueue**, `pred` for paths, `d[w] = d[v] + 1`. $\Theta(n + m)$ with lists, $\Theta(n^2)$ with a matrix. Layer $L_i$ = nodes at distance $i$.
+- Connected components: BFS from every still-unvisited node, $\Theta(n + m)$ total.
+
+## DFS & topological sort
+
+*Details: [Topic 13](topics/13-dfs-and-topological-sort.mdx)*
+
+- White → grey (discover, $d$) → black (finish, $f$); the clock ticks on both, times $1..2n$; $\Theta(n + m)$.
+- Edge $(u, v)$: $v$ white → **tree**; grey → **back**; black with $d[u] < d[v]$ → **forward**; otherwise **cross**.
+- Parenthesis theorem: intervals $[d, f]$ are nested or disjoint.
+- Cycle $\iff$ back edge. Topological sort of a DAG = vertices by **decreasing** $f$.

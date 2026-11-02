@@ -36,7 +36,7 @@ loop invariants, insertion sort, Big-O/Ω/Θ, merge sort and recurrences.
 - **Four study modes per topic**, as tabs: Visual · Worked example · Guided questions · Explanation & drill
 - **Hidden answers and hints** that open on click, plus a **mastery check** at the end of every topic
 - **Two timed mock midterms**, a **cheatsheet**, a "which technique?" guide and a common-mistakes page
-- **88 flashcards**: flip them on the site's Flashcards page (filter by topic, shuffle, keyboard keys), or import
+- **102 flashcards**: flip them on the site's Flashcards page (filter by topic, shuffle, keyboard keys), or import
   the same [`flashcards/daa-flashcards.csv`](flashcards/daa-flashcards.csv) into Anki
 - **Private progress tracker** (mastery checklist, mock scores, mistakes log) saved in your own browser —
   no login or account — with export/import to move between devices
@@ -59,6 +59,8 @@ loop invariants, insertion sort, Big-O/Ω/Θ, merge sort and recurrences.
 | 09 | Iteration and the master method |
 | 10 | Quicksort, partition, selection |
 | 11 | Maximum subarray (D&C)         |
+| 12 | Graphs and BFS                 |
+| 13 | DFS and topological sort       |
 
 ## Tech stack
 

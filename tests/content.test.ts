@@ -11,8 +11,8 @@ const topics = files.filter((f) => f.startsWith('topics/'));
 const MODES = ['Visual', 'Worked example', 'Guided questions', 'Explanation & drill'];
 
 describe('pages', () => {
-  it('has all 12 topic pages', () => {
-    expect(topics).toHaveLength(12);
+  it('has all 14 topic pages', () => {
+    expect(topics).toHaveLength(14);
   });
 
   it.each(files)('%s has a title in its frontmatter', (f) => {
@@ -151,14 +151,14 @@ describe('flashcards', () => {
     expect(header).toEqual(['#separator:comma', '#html:false', '#columns:Front,Back,Tags', '#tags column:3']);
   });
 
-  it('has 88 well-formed cards with topic tags and no duplicates', () => {
+  it('has 102 well-formed cards with topic tags and no duplicates', () => {
     const parsed = cards.map(parseCsvLine);
-    expect(parsed).toHaveLength(88);
+    expect(parsed).toHaveLength(102);
     for (const c of parsed) {
       expect(c, c.join(' | ')).toHaveLength(3);
       expect(c[0].trim().length).toBeGreaterThan(0);
       expect(c[1].trim().length).toBeGreaterThan(0);
-      expect(c[2]).toMatch(/^t(\d|1[01]) /);
+      expect(c[2]).toMatch(/^t(\d|1[0-3]) /);
     }
     expect(new Set(parsed.map((c) => c[0])).size).toBe(parsed.length);
   });
@@ -166,7 +166,7 @@ describe('flashcards', () => {
   it('loads into the site deck with a topic for every card', () => {
     const deck = loadFlashcards(ROOT);
     expect(deck).toHaveLength(cards.length);
-    expect(deck.every((c) => /^t(\d|1[01])$/.test(c.topic))).toBe(true);
+    expect(deck.every((c) => /^t(\d|1[0-3])$/.test(c.topic))).toBe(true);
     expect(deck[0].back).toBe('b^y = x ("what power of b gives x?")');
   });
 

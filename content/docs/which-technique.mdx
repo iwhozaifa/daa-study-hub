@@ -4,7 +4,7 @@ description: "Recognise which method a question wants."
 ---
 
 Exam questions rarely name the method. Use this page to go from **what the question looks like** to
-**what to do**. It grows as the course continues (greedy, DP and graphs get added when we reach them).
+**what to do**. It grows as the course continues (greedy and DP get added when we reach them).
 
 ## "Analyse this…" questions
 
@@ -47,7 +47,10 @@ Exam questions rarely name the method. Use this page to go from **what the quest
 | "build the answer one element at a time, keeping it valid" | **Incremental** | e.g. insertion sort; prove with a loop invariant |
 | a locally best choice seems to never hurt | **Greedy** | *coming later in the course* |
 | subproblems overlap / repeat | **Dynamic programming** | *coming later in the course* |
-| networks, routes, connections | **Graph algorithms** | *coming later in the course* |
+| "can I get from A to B?", fewest hops, unweighted shortest path | **BFS** | [Topic 12](topics/12-graphs-and-bfs.mdx); $\Theta(n + m)$ |
+| "find all groups / regions", flood fill | **BFS (or DFS) per unvisited node** = connected components | [Topic 12](topics/12-graphs-and-bfs.mdx) |
+| "does it contain a cycle?" | **DFS**: look for a back edge | [Topic 13](topics/13-dfs-and-topological-sort.mdx) |
+| tasks with prerequisites / "in what order?" | **Topological sort**: DFS, decreasing finish time | [Topic 13](topics/13-dfs-and-topological-sort.mdx) |
 
 **Assignment write-ups** (per the course rules, Intro Slide 19) need: a plain-English description,
 a worked example, a correctness argument and a running-time analysis. Each topic page models all four.
