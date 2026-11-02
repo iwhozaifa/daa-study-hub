@@ -443,3 +443,147 @@ describe('Topic 11: maximum subarray', () => {
     }
   });
 });
+
+type Adj = Record<string, string[]>;
+
+/** BFS as in the slides: mark on enqueue, record pred and distance; also logs the queue after each dequeue. */
+function bfs(adj: Adj, s: string) {
+  const pred: Record<string, string | null> = {};
+  const d: Record<string, number> = {};
+  const order: string[] = [];
+  const queues: string[][] = [];
+  for (const v of Object.keys(adj)) d[v] = Infinity;
+  pred[s] = null;
+  d[s] = 0;
+  const q = [s];
+  while (q.length) {
+    const v = q.shift()!;
+    order.push(v);
+    for (const w of adj[v])
+      if (d[w] === Infinity) {
+        d[w] = d[v] + 1;
+        pred[w] = v;
+        q.push(w);
+      }
+    queues.push([...q]);
+  }
+  return { pred, d, order, queues };
+}
+
+function path(pred: Record<string, string | null>, v: string) {
+  const out = [v];
+  while (pred[v] != null) out.unshift((v = pred[v]!));
+  return out.join('→');
+}
+
+/** DFS(G) from the slides: vertices in key order, lists in the given order; classifies every edge. */
+function dfs(adj: Adj) {
+  let time = 0;
+  const color: Record<string, 'W' | 'G' | 'B'> = {};
+  const d: Record<string, number> = {};
+  const f: Record<string, number> = {};
+  const edges: Record<string, 'T' | 'B' | 'F' | 'C'> = {};
+  for (const u of Object.keys(adj)) color[u] = 'W';
+  const visit = (u: string) => {
+    color[u] = 'G';
+    d[u] = ++time;
+    for (const v of adj[u]) {
+      if (color[v] === 'W') {
+        edges[`${u}→${v}`] = 'T';
+        visit(v);
+      } else edges[`${u}→${v}`] = color[v] === 'G' ? 'B' : d[u] < d[v] ? 'F' : 'C';
+    }
+    color[u] = 'B';
+    f[u] = ++time;
+  };
+  for (const u of Object.keys(adj)) if (color[u] === 'W') visit(u);
+  const times = Object.fromEntries(Object.keys(adj).map((v) => [v, `${d[v]}/${f[v]}`]));
+  const topo = Object.keys(adj).sort((a, b) => f[b] - f[a]);
+  return { times, edges, topo };
+}
+
+function undirected(n: number, edges: [number, number][]): Adj {
+  const adj: Adj = {};
+  for (let v = 1; v <= n; v++) adj[v] = [];
+  for (const [u, v] of edges) adj[u].push(String(v)), adj[v].push(String(u));
+  for (const v of Object.keys(adj)) adj[v].sort((a, b) => Number(a) - Number(b));
+  return adj;
+}
+
+const LECTURE_GRAPH: [number, number][] = [[1, 2], [1, 3], [2, 3], [2, 4], [2, 5], [3, 5], [3, 7], [3, 8], [4, 5], [5, 6], [7, 8]];
+
+describe('Topic 12: graphs and BFS', () => {
+  const note = read('topics/12-graphs-and-bfs.mdx');
+  const slides: Adj = {
+    0: ['8'], 1: ['3', '7', '9', '2'], 2: ['8', '1', '4'], 3: ['4', '5', '1'], 4: ['2', '3'],
+    5: ['3', '6'], 6: ['7', '5'], 7: ['1', '6'], 8: ['2', '0', '9'], 9: ['1', '8'],
+  };
+
+  it('10-node trace from 2: queue after each dequeue', () => {
+    const r = bfs(slides, '2');
+    expect(r.order).toEqual(['2', '8', '1', '4', '0', '9', '3', '7', '5', '6']);
+    expect(r.queues.map((q) => q.join(' '))).toEqual(['8 1 4', '1 4 0 9', '4 0 9 3 7', '0 9 3 7', '9 3 7', '3 7', '7 5', '5 6', '6', '']);
+  });
+
+  it('pred and d tables and the reported paths', () => {
+    const r = bfs(slides, '2');
+    const digits = '0123456789'.split('');
+    expect(digits.map((v) => r.pred[v] ?? '–').join(' ')).toBe('8 2 – 1 2 3 7 1 2 8');
+    expect(digits.map((v) => r.d[v]).join(' ')).toBe('2 1 0 2 1 3 3 2 1 2');
+    expect([path(r.pred, '6'), path(r.pred, '0'), path(r.pred, '1'), path(r.pred, '5')]).toEqual(['2→1→7→6', '2→8→0', '2→1', '2→1→3→5']);
+    expect(note).toContain('**2 → 1 → 7 → 6**');
+  });
+
+  it('lecture 8-node graph: m = 11, degree sum 22, layers and mastery answers', () => {
+    const g = undirected(8, LECTURE_GRAPH);
+    expect(Object.values(g).reduce((s, l) => s + l.length, 0)).toBe(22);
+    const r = bfs(g, '1');
+    expect(r.order).toEqual(['1', '2', '3', '4', '5', '7', '8', '6']);
+    expect(Object.keys(g).map((v) => r.d[v])).toEqual([0, 1, 1, 2, 2, 3, 2, 2]);
+    const tree = new Set(Object.entries(r.pred).filter(([, p]) => p).map(([v, p]) => [Number(p), Number(v)].sort((a, b) => a - b).join('-')));
+    expect(tree.size).toBe(7);
+    expect(LECTURE_GRAPH.map((e) => e.join('-')).filter((e) => !tree.has(e))).toEqual(['2-3', '3-5', '4-5', '7-8']);
+    expect(note).toContain('**1, 2, 3, 4, 5, 7, 8, 6**');
+  });
+});
+
+describe('Topic 13: DFS and topological sort', () => {
+  const note = read('topics/13-dfs-and-topological-sort.mdx');
+
+  it('lecture trace on u..z: times and edge classes', () => {
+    const r = dfs({ u: ['v', 'x'], v: ['y'], w: ['y', 'z'], x: ['v'], y: ['x'], z: ['z'] });
+    expect(r.times).toEqual({ u: '1/8', v: '2/7', w: '9/12', x: '4/5', y: '3/6', z: '10/11' });
+    expect(r.edges).toEqual({ 'u→v': 'T', 'v→y': 'T', 'y→x': 'T', 'x→v': 'B', 'u→x': 'F', 'w→y': 'C', 'w→z': 'T', 'z→z': 'B' });
+  });
+
+  it('homework DAG: times and topological order', () => {
+    const r = dfs({
+      m: ['q', 'r', 'x'], n: ['o', 'q', 'u'], o: ['r', 's', 'v'], p: ['o', 's', 'z'], q: ['t'], r: ['u', 'y'], s: ['r'],
+      t: [], u: ['t'], v: ['w', 'x'], w: ['z'], x: [], y: ['v'], z: [],
+    });
+    expect(r.topo.join(', ')).toBe('p, n, o, s, m, r, y, v, x, w, z, u, q, t');
+    expect(Object.values(r.edges)).not.toContain('B');
+    expect(r.times.m).toBe('1/20');
+    expect(r.times.p).toBe('27/28');
+    expect(note).toContain('**p, n, o, s, m, r, y, v, x, w, z, u, q, t**');
+  });
+
+  it('course-plan DAG (visual + mastery)', () => {
+    const r = dfs({ Math: ['DS', 'Discrete'], DS: ['Algo', 'DB'], Discrete: ['Algo'], Algo: ['Graphs'], Graphs: [], DB: [] });
+    expect(r.times).toEqual({ Math: '1/12', DS: '2/9', Discrete: '10/11', Algo: '3/6', Graphs: '4/5', DB: '7/8' });
+    expect(r.edges['Discrete→Algo']).toBe('C');
+    expect(r.topo).toEqual(['Math', 'Discrete', 'DS', 'DB', 'Algo', 'Graphs']);
+  });
+
+  it('drill 2: a..e with a cycle', () => {
+    const r = dfs({ a: ['b', 'd'], b: ['c'], c: ['a', 'd'], d: [], e: ['c', 'd'] });
+    expect(r.times).toEqual({ a: '1/8', b: '2/7', c: '3/6', d: '4/5', e: '9/10' });
+    expect(r.edges).toEqual({ 'a→b': 'T', 'b→c': 'T', 'c→a': 'B', 'c→d': 'T', 'a→d': 'F', 'e→c': 'C', 'e→d': 'C' });
+  });
+
+  it('drill 3: the getting-dressed order respects every arc', () => {
+    const order = ['socks', 'trousers', 'shoes', 'shirt', 'belt', 'tie', 'jacket'];
+    const arcs = [['shirt', 'tie'], ['tie', 'jacket'], ['trousers', 'shoes'], ['trousers', 'belt'], ['belt', 'jacket'], ['socks', 'shoes']];
+    for (const [a, b] of arcs) expect(order.indexOf(a)).toBeLessThan(order.indexOf(b));
+  });
+});

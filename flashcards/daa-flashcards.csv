@@ -90,3 +90,17 @@ Nuts and bolts in Θ(n log n),"Partition the nuts around a bolt, then the bolts 
 Maximum subarray: the three D&C cases,"Entirely left of mid, entirely right of mid, or crossing mid",t11 maxsubarray
 Max subarray: brute force vs D&C,"Θ(n²) vs Θ(n log n) from T(n) = 2T(n/2) + Θ(n)",t11 maxsubarray
 How is the crossing subarray found?,"Sweep left from mid and right from mid+1 keeping the best running sums (start at −∞), then add them",t11 maxsubarray
+Sum of degrees in an undirected graph,2m (each edge has two ends),t12 graphs
+Tree on n nodes: the three properties,"Connected, acyclic, n−1 edges: any two imply the third",t12 graphs
+Adjacency matrix vs list: space,"Matrix Θ(n²); list Θ(n + m)",t12 graphs
+BFS running time,"Θ(n + m) with adjacency lists; Θ(n²) with an adjacency matrix",t12 graphs
+BFS uses which data structure?,"A queue (FIFO), so layer i is finished before layer i+1",t12 graphs
+BFS layer L_i contains…,All nodes at distance exactly i (fewest edges) from s,t12 graphs
+How does BFS report a path?,"Record pred[w] = v when w is discovered, then follow pred back from the target and reverse",t12 graphs
+Find all connected components,"Loop over vertices; start a new BFS from each unvisited one; Θ(n + m) total",t12 graphs
+DFS colours,"White = undiscovered, grey = discovered (on the stack), black = finished",t13 dfs
+Back edge,"(u, v) where v is grey, i.e. an ancestor of u; self-loops too",t13 dfs
+Forward vs cross edge,"Both hit a black v: forward if v is a descendant (d[u] < d[v]), cross otherwise",t13 dfs
+Parenthesis theorem,"DFS intervals [d, f] are either nested or disjoint, never overlapping",t13 dfs
+When does a directed graph have a cycle?,Exactly when DFS finds a back edge,t13 dfs
+Topological sort,"Run DFS on a DAG and list vertices by decreasing finish time; Θ(n + m)",t13 dfs

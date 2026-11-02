@@ -22,7 +22,7 @@ function watchErrors(page: Page) {
 }
 
 test.describe('home page', () => {
-  test('shows the hero, countdown, four modes and twelve topics', async ({ page }) => {
+  test('shows the hero, countdown, four modes and fourteen topics', async ({ page }) => {
     const errors = watchErrors(page);
     await page.goto(`${BASE}/`);
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Design & Analysis');
@@ -30,7 +30,7 @@ test.describe('home page', () => {
     for (const mode of ['Visual', 'Worked example', 'Guided questions', 'Explanation & drill']) {
       await expect(page.getByText(mode, { exact: true }).first()).toBeVisible();
     }
-    await expect(page.getByTestId('topic-grid').getByRole('link')).toHaveCount(12);
+    await expect(page.getByTestId('topic-grid').getByRole('link')).toHaveCount(14);
     expect(errors).toEqual([]);
   });
 
@@ -54,7 +54,7 @@ test.describe('flashcards', () => {
     await page.goto(`${BASE}/docs/flashcards`);
     const card = page.getByTestId('flashcard');
     const count = page.getByTestId('flashcard-count');
-    await expect(count).toHaveText('Card 1 / 88');
+    await expect(count).toHaveText('Card 1 / 102');
     await expect(card).toContainText('log_b(x) = y means');
     await expect(card).toHaveAttribute('data-flipped', 'false');
 
@@ -63,10 +63,10 @@ test.describe('flashcards', () => {
     await expect(page.getByText('Answer: b^y = x', { exact: false })).toBeAttached();
 
     await page.getByRole('button', { name: /Next/ }).click();
-    await expect(count).toHaveText('Card 2 / 88');
+    await expect(count).toHaveText('Card 2 / 102');
     await expect(card).toHaveAttribute('data-flipped', 'false');
     await page.keyboard.press('ArrowLeft'); // focus is inside the deck after the click
-    await expect(count).toHaveText('Card 1 / 88');
+    await expect(count).toHaveText('Card 1 / 102');
 
     await page.getByRole('radio', { name: 'Topic 4' }).click();
     await expect(count).toHaveText('Card 1 / 6');
